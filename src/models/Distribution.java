@@ -4,9 +4,9 @@ import controller.PokerBot;
 
 public class Distribution {
 
-    private Card[] CardsOfPlayer = new Card[PokerBot.AMOUNT_CARDS_AT_PLAYER];
+    private Card[] CardsOfPlayer = new Card[PokerBot.COUNT_CARDS_AT_PLAYER];
 
-    private Card[] flopCards = new Card[PokerBot.AMOUNT_CARDS_AT_FLOP];
+    private Card[] flopCards = new Card[PokerBot.COUNT_CARDS_AT_FLOP];
 
     private Card turnCard;
 
