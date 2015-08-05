@@ -2,6 +2,6 @@ package models.Enums;
 
 public enum Suits {
 
-    Spades, Herts, Clubs, Dimonds
+    Spades, Hertz, Clubs, Diamonds
 
 }
