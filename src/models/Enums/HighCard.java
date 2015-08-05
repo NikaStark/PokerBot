@@ -2,6 +2,6 @@ package models.Enums;
 
 public enum HighCard {
 
-    Ace, King, Queen, Jack
+    Jack, Queen, King, Ace
 
 }
