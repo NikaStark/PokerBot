@@ -35,7 +35,7 @@ public class Calculator {
 
     public float[] getTableChances() {
         float[] chances = new float[PokerBot.COUNT_CARDS_AT_DISTRIBUTION];
-        updateCurrentCards();
+        updateCurrentKnownCards();
 
         return chances;
     }
@@ -48,10 +48,10 @@ public class Calculator {
                     for (int d = c + 1; d < this.currentDeckOfCards.length; d++) {
                         for (int e = d + 1; e < this.currentDeckOfCards.length; e++) {
                             this.possibleBoard.add(new Card[]{this.currentDeckOfCards[a],
-                                    this.currentDeckOfCards[b],
-                                    this.currentDeckOfCards[c],
-                                    this.currentDeckOfCards[d],
-                                    this.currentDeckOfCards[e]});
+                                                            this.currentDeckOfCards[b],
+                                                            this.currentDeckOfCards[c],
+                                                            this.currentDeckOfCards[d],
+                                                            this.currentDeckOfCards[e]});
                         }
                     }
                 }
@@ -75,7 +75,7 @@ public class Calculator {
         this.currentDeckOfCards = newCurrentDeckOfCards.toArray(new Card[newCurrentDeckOfCards.size()]);
     }
 
-    private void updateCurrentCards() {
+    private void updateCurrentKnownCards() {
         this.currentKnownCards = new Card[PokerBot.COUNT_CARDS_AT_DISTRIBUTION];      //TODO
         if (this.distribution.getCardsOfPlayer() != null) {
             System.arraycopy(this.distribution.getCardsOfPlayer(), 0,
@@ -114,49 +114,87 @@ public class Calculator {
             return (new ArrayList<>(Arrays.asList(Combinations.values()))).indexOf(Combinations.TwoPair);
         }else if (isPair(possibleCombination)) {
             return (new ArrayList<>(Arrays.asList(Combinations.values()))).indexOf(Combinations.Pair);
-        } else if (isKicker(possibleCombination)) {
+        } else {
             return (new ArrayList<>(Arrays.asList(Combinations.values()))).indexOf(Combinations.Kicker);
         }
-        return Combinations.values().length + 1; // TODO return Exception
     }
 
     private boolean isRoyalFlush(Card[] possibleCombination) {
-        return false;
+        int[] numericValues = getAllSortedNumericValues(possibleCombination);
+        return (isStraightFlush(possibleCombination) && numericValues[0] == PokerBot.MAX_NUMERIC_VALUE_CARD);
     }
 
     private boolean isStraightFlush(Card[] possibleCombination) {
-        return false;
+        return (isFlush(possibleCombination) && isStraight(possibleCombination));
     }
 
     private boolean isFourOFAKind(Card[] possibleCombination) {
-        return false;
+        int[] numericValues = getAllSortedNumericValues(possibleCombination);
+        int counter = 0;
+        for (int i = 0; i < possibleCombination.length - 1; i++) {
+            if (numericValues[i] + 1 == numericValues[i + 1]) {
+                counter++;
+            }
+        }
+        return (counter == 3);
     }
 
     private boolean isFullHose(Card[] possibleCombination) {
-        return false;
+        return (isThreeOfAKind(possibleCombination) && isPair(possibleCombination));
     }
 
-    private boolean isFlush(Card[] PossibleCombination) {
-        return false;
+    private boolean isFlush(Card[] possibleCombination) {
+        String[] suits = getAllSortedSuits(possibleCombination);
+        int counter = 0;
+        for (int i = 0; i < possibleCombination.length - 1; i++) {
+            if (suits[i].equals(suits[i + 1])) {
+                counter++;
+            }
+        }
+        return (counter == 4);
     }
 
     private boolean isStraight(Card[] possibleCombination) {
-        return false;
+        int[] numericValues = getAllSortedNumericValues(possibleCombination);
+        int counter = 0;
+        for (int i = 0; i < possibleCombination.length - 1; i++) {
+            if (numericValues[i] + 1 == numericValues[i + 1]) {
+                counter++;
+            }
+        }
+        return (counter == 4);
     }
 
     private boolean isThreeOfAKind(Card[] possibleCombination) {
-        return false;
+        int[] numericValues = getAllSortedNumericValues(possibleCombination);
+        int counter = 0;
+        for (int i = 0; i < possibleCombination.length - 1; i++) {
+            if (numericValues[i] == numericValues[i + 1]) {
+                counter++;
+            }
+        }
+        return (counter == 2);
     }
 
     private boolean isTwoPair(Card[] possibleCombination) {
-        return false;
+        int[] numericValues = getAllSortedNumericValues(possibleCombination);
+        int counter = 0;
+        for (int i = 0; i < possibleCombination.length - 1; i++) {
+            if (numericValues[i] == numericValues[i + 1]) {
+                counter++;
+                i++;
+            }
+        }
+        return (counter == 2);
     }
 
     private boolean isPair(Card[] possibleCombination) {
-        return false;
-    }
-
-    private boolean isKicker(Card[] possibleCombination) {
+        int[] numericValues = getAllSortedNumericValues(possibleCombination);
+        for (int i = 0; i < numericValues.length - 1; i++) {
+            if (numericValues[i] == numericValues[i + 1]) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -172,6 +210,24 @@ public class Calculator {
             count++;
         }
         return count;
+    }
+
+    private int[] getAllSortedNumericValues(Card[] possibleCombination) {
+        int[] numericValues = new int[possibleCombination.length];
+        for (int i = 0; i < possibleCombination.length; i++) {
+            numericValues[i] = possibleCombination[i].getNumericValue();
+        }
+        Arrays.sort(numericValues);
+        return numericValues;
+    }
+
+    private String[] getAllSortedSuits(Card[] possibleCombination) {
+        String[] suits = new String[possibleCombination.length];
+        for (int i = 0; i < possibleCombination.length; i++) {
+            suits[i] = possibleCombination[i].getSuit().toString();
+        }
+        Arrays.sort(suits);
+        return suits;
     }
 
 }
