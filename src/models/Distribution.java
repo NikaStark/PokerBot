@@ -1,19 +1,19 @@
 package models;
 
-import controller.PokerBot;
+import models.exceptions.ReassigningFieldException;
 
 public class Distribution {
 
-    private Card[] CardsOfPlayer = new Card[PokerBot.COUNT_CARDS_AT_PLAYER];
+    private final Card[] CardsOfPlayer;
 
-    private Card[] flopCards = new Card[PokerBot.COUNT_CARDS_AT_FLOP];
+    private Card[] flopCards;
 
     private Card turnCard;
 
     private Card riverCard;
 
     public Distribution(Card[] cardsOfPlayer) {
-        CardsOfPlayer = cardsOfPlayer;
+        this.CardsOfPlayer = cardsOfPlayer;
     }
 
     public Card[] getCardsOfPlayer() {
@@ -32,15 +32,24 @@ public class Distribution {
         return riverCard;
     }
 
-    public void setFlopCards(Card[] flopCards) {
+    public void setFlopCards(final Card[] flopCards) throws ReassigningFieldException {
+        if (this.flopCards != null) {
+            throw new ReassigningFieldException();
+        }
         this.flopCards = flopCards;
     }
 
-    public void setTurnCard(Card turnCard) {
+    public void setTurnCard(final Card turnCard) throws ReassigningFieldException{
+        if (this.turnCard != null) {
+            throw new ReassigningFieldException();
+        }
         this.turnCard = turnCard;
     }
 
-    public void setRiverCard(Card riverCard) {
+    public void setRiverCard(final Card riverCard) throws ReassigningFieldException{
+        if (this.riverCard != null) {
+            throw new ReassigningFieldException();
+        }
         this.riverCard = riverCard;
     }
 }
