@@ -13,7 +13,15 @@ public class Game {
 
     public static final int AMOUNT_CARDS_AT_FLOP = 3;
 
-    public static final int AMOUNT_CARDS_AT_DISTRIBUTION = 7;
+    public static final int AMOUNT_CARDS_AT_TURN = 1;
+
+    public static final int AMOUNT_CARDS_AT_RIVER = 1;
+
+    public static final int AMOUNT_CARDS_AT_DISTRIBUTION =
+            AMOUNT_CARDS_AT_PLAYER +
+            AMOUNT_CARDS_AT_FLOP +
+            AMOUNT_CARDS_AT_TURN +
+            AMOUNT_CARDS_AT_RIVER;
 
     public static final int AMOUNT_CARDS_IN_DECK = 52;
 
