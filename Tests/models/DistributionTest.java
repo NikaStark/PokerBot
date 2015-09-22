@@ -1,8 +1,12 @@
 package models;
 
+import models.Enums.StreetPoker;
 import models.Enums.Suits;
 import models.exceptions.ReassigningFieldException;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -81,4 +85,33 @@ public class DistributionTest {
             fail();
         } catch (final ReassigningFieldException e) {}
     }
+
+    @Test
+    public void testRemoveKnownCardsFromDeck() throws Exception {
+        final Card[] inputPlayersCards = new Card[]{new Card(4, Suits.Hertz), new Card(6, Suits.Spades)};
+        final Card[] inputFlopCards = new Card[]{new Card(7, Suits.Clubs), new Card(2, Suits.Diamonds), new Card(9, Suits.Hertz)};
+        final Card inputTurnCad = new Card(5, Suits.Spades);
+        final ArrayList<Card> expectedAnswer = new ArrayList<>(Arrays.asList(Game.DECK_OF_CARDS));
+        expectedAnswer.removeAll(new ArrayList<>(Arrays.asList(inputPlayersCards)));
+        expectedAnswer.removeAll(new ArrayList<>(Arrays.asList(inputFlopCards)));
+        expectedAnswer.remove(inputTurnCad);
+        final Distribution distribution = new Distribution(inputPlayersCards);
+        distribution.setFlopCards(inputFlopCards);
+        distribution.setTurnCard(inputTurnCad);
+        final ArrayList<Card> actualAnswer = distribution.getCurrentDeck();
+        assertEquals(expectedAnswer, actualAnswer);
+    }
+
+    @Test
+    public void testCurrentKnownCards() throws Exception {
+        final Card[] inputPlayersCards = new Card[]{new Card(4, Suits.Hertz), new Card(6, Suits.Spades)};
+        final Card[] inputFlopCards = new Card[]{new Card(7, Suits.Clubs), new Card(2, Suits.Diamonds), new Card(9, Suits.Hertz)};
+        final Card[] expectedAnswer = inputFlopCards;
+        final Distribution distribution = new Distribution(inputPlayersCards);
+        final StreetPoker inputStreetPoker = StreetPoker.Flop;
+        distribution.setFlopCards(inputFlopCards);
+        final Card[] actualAnswer = distribution.currentKnownCards(inputStreetPoker);
+        assertArrayEquals(expectedAnswer, actualAnswer);
+    }
+
 }
