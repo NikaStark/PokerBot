@@ -34,4 +34,19 @@ public class Card {
     public Suits getSuit() {
         return suit;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (this.getClass() == object.getClass()) {
+            Card card = (Card) object;
+            if (this.numericValue == card.numericValue && this.suit == card.suit) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
