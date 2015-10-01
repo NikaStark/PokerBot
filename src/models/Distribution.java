@@ -21,7 +21,7 @@ public class Distribution {
     public Distribution(Card[] cardsOfPlayer) {
         this.cardsOfPlayer = cardsOfPlayer;
         this.currentDeck = new ArrayList<>(Arrays.asList(Game.DECK_OF_CARDS));
-        removeKnownCardsFromDeck(StreetPoker.PreFlop);
+        removeKnownCardsFromDeck(currentStreetPoker());
     }
 
     public Card[] getCardsOfPlayer() {
@@ -49,7 +49,7 @@ public class Distribution {
             throw new ReassigningFieldException();
         }
         this.flopCards = flopCards;
-        removeKnownCardsFromDeck(StreetPoker.Flop);
+        removeKnownCardsFromDeck(currentStreetPoker());
     }
 
     public void setTurnCard(final Card turnCard) throws ReassigningFieldException{
@@ -57,7 +57,7 @@ public class Distribution {
             throw new ReassigningFieldException();
         }
         this.turnCard = turnCard;
-        removeKnownCardsFromDeck(StreetPoker.Turn);
+        removeKnownCardsFromDeck(currentStreetPoker());
     }
 
     public void setRiverCard(final Card riverCard) throws ReassigningFieldException{
@@ -65,7 +65,7 @@ public class Distribution {
             throw new ReassigningFieldException();
         }
         this.riverCard = riverCard;
-        removeKnownCardsFromDeck(StreetPoker.River);
+        removeKnownCardsFromDeck(currentStreetPoker());
     }
 
     public void removeKnownCardsFromDeck(StreetPoker streetPoker) {
@@ -83,11 +83,9 @@ public class Distribution {
     public Card[] currentKnownCards(StreetPoker streetPoker) {
         if (streetPoker == StreetPoker.PreFlop) {
             return this.cardsOfPlayer;
-        }
-        if (streetPoker == StreetPoker.Flop) {
+        } else if (streetPoker == StreetPoker.Flop) {
             return this.flopCards;
-        }
-        if (streetPoker == StreetPoker.Turn) {
+        } else if (streetPoker == StreetPoker.Turn) {
             return new Card[]{this.getTurnCard()};
         }
         return new Card[]{this.getRiverCard()};
@@ -98,13 +96,11 @@ public class Distribution {
         if (streetPoker == StreetPoker.PreFlop) {
             System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
             return allCurrentKnownCards;
-        }
-        if (streetPoker == StreetPoker.Flop) {
+        } else if (streetPoker == StreetPoker.Flop) {
             System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
             System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
             return allCurrentKnownCards;
-        }
-        if (streetPoker == StreetPoker.Turn) {
+        } else if (streetPoker == StreetPoker.Turn) {
             System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
             System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
             allCurrentKnownCards[allCurrentKnownCards.length - 1] = this.turnCard;
@@ -122,17 +118,27 @@ public class Distribution {
     public int counterKnownCards(StreetPoker streetPoker) {
         if (streetPoker == StreetPoker.PreFlop) {
             return Game.AMOUNT_CARDS_AT_PLAYER;
-        }
-        if (streetPoker == StreetPoker.Flop) {
+        } else if (streetPoker == StreetPoker.Flop) {
             return Game.AMOUNT_CARDS_AT_PLAYER +
                     Game.AMOUNT_CARDS_AT_FLOP;
-        }
-        if (streetPoker == StreetPoker.Turn) {
+        } else if (streetPoker == StreetPoker.Turn) {
             return Game.AMOUNT_CARDS_AT_PLAYER +
                     Game.AMOUNT_CARDS_AT_FLOP +
                     Game.AMOUNT_CARDS_AT_TURN;
         }
         return Game.AMOUNT_CARDS_AT_DISTRIBUTION;
+    }
+
+    public StreetPoker currentStreetPoker() {
+        if (this.flopCards == null && this.cardsOfPlayer != null) {
+           return StreetPoker.PreFlop;
+        } else if (this.turnCard == null && this.flopCards != null) {
+            return StreetPoker.Flop;
+        } else if (this.riverCard == null && this.turnCard != null) {
+            return StreetPoker.Turn;
+        } else {
+            return StreetPoker.River;
+        }
     }
 
 }
