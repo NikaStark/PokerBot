@@ -17,11 +17,7 @@ public class Calculator {
 //    private Card[] currentDeckOfCards;
 //
 //    private ArrayList<Card[]> possibleBoard = new ArrayList<>();
-
-    public int[] getTableChances(Distribution currentDistribution) {
-        return null;
-    }
-
+//
 //    public ArrayList<Card[]> method(Card[] src, int amountEmptyPosition) {
 //        ArrayList<Card[]> dest = new ArrayList<>();
 //        subMethod(src, dest, null, 0, amountEmptyPosition);
@@ -142,6 +138,73 @@ public class Calculator {
 //        }
 //        return indexOfBestCombination;
 //    }
+//
+//    //TODO Second working method, but this getting much memory and time
+//    public ArrayList<Card[]> smartSample1(ArrayList<Card> src, int amountPosition) {
+//        long t1=System.nanoTime();
+//        ArrayList<Card[]> dest = new ArrayList<>(counterSmartSample(src.size(), amountPosition));
+//        dest = subSmartSample1(src, dest, null, amountPosition, 0, 0);
+//        long t2 = System.nanoTime();
+//        long elapsedTime = t2-t1;
+//        System.out.println("Elapsed time was "+elapsedTime+" ns");
+//        return dest;
+//    }
+//
+//    private ArrayList<Card[]> subSmartSample1(ArrayList<Card> src, ArrayList<Card[]> dest, ArrayList<Card> possibleNotKnownCard,
+//                                             int amountPosition, int startIndex, int counterRecursion) {
+//        if (possibleNotKnownCard == null) {
+//            possibleNotKnownCard = new ArrayList<>(amountPosition);
+//        }
+//        for (int i = startIndex; i < src.size(); i++) {
+//            possibleNotKnownCard.add(src.get(i));
+//            if (possibleNotKnownCard.size() == amountPosition) {
+//                dest.add(possibleNotKnownCard.toArray(new Card[possibleNotKnownCard.size()]));
+//            } else {
+//                dest = subSmartSample1(src, dest, possibleNotKnownCard, amountPosition, i + 1, counterRecursion + 1);
+//            }
+//            possibleNotKnownCard.remove(possibleNotKnownCard.size() - 1);
+//        }
+//        return dest;
+//    }
+
+
+    public int[] getTableChances(Distribution currentDistribution) {
+        return null;
+    }
+
+    public ArrayList<Card[]> smartSample(ArrayList<Card> src, int amountPosition) {
+        long t1=System.nanoTime();
+        ArrayList<Card[]> dest = new ArrayList<>(counterSmartSample(src.size(), amountPosition));
+        dest = subSmartSample(src, dest, null, amountPosition, 0, 0);
+        long t2 = System.nanoTime();
+        long elapsedTime = t2-t1;
+        System.out.println("Elapsed time was "+elapsedTime+" ns");
+        return dest;
+    }
+
+    private ArrayList<Card[]> subSmartSample(ArrayList<Card> src, ArrayList<Card[]> dest, Card[] possibleNotKnownCard,
+                                            int amountPosition, int startIndex, int counterRecursion) {
+        if (possibleNotKnownCard == null) {
+            possibleNotKnownCard = new Card[amountPosition];
+        }
+        for (int i = startIndex; i < src.size(); i++) {
+            possibleNotKnownCard[counterRecursion] = src.get(i);
+            if (counterRecursion == amountPosition - 1) {
+                dest.add(possibleNotKnownCard.clone());
+            } else {
+                dest = subSmartSample(src, dest, possibleNotKnownCard, amountPosition, i + 1, counterRecursion + 1);
+            }
+        }
+        return dest;
+    }
+
+    private int counterSmartSample(int srcSize, int amountPosition) {
+        int result = 1;
+        for (int i = 0; i < amountPosition; i++) {
+            result *= (srcSize - i) / (amountPosition - i);
+        }
+        return result;
+    }
 
     public int whatCombination(Card[] possibleCombination) {
         if (isRoyalFlush(possibleCombination)) {
