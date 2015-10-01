@@ -114,4 +114,26 @@ public class DistributionTest {
         assertArrayEquals(expectedAnswer, actualAnswer);
     }
 
+    @Test
+    public void testAllCurrentKnownCards() throws Exception {
+        final Card[] inputPlayersCards = new Card[]{new Card(7, Suits.Clubs), new Card(10, Suits.Diamonds)};
+        final Card[] inputFlopCards = new Card[]{new Card(7, Suits.Clubs), new Card(2, Suits.Diamonds), new Card(9, Suits.Hertz)};
+        final Card[] expectedAnswer = new Card[]{new Card(7, Suits.Clubs), new Card(10, Suits.Diamonds), new Card(7, Suits.Clubs),
+                new Card(2, Suits.Diamonds), new Card(9, Suits.Hertz)};
+        final Distribution distribution = new Distribution(inputPlayersCards);
+        final StreetPoker inputStreetPoker = StreetPoker.Flop;
+        distribution.setFlopCards(inputFlopCards);
+        final Card[] actualAnswer = distribution.allCurrentKnownCards(inputStreetPoker);
+        assertArrayEquals(expectedAnswer, actualAnswer);
+    }
+
+    @Test
+    public void testCounterKnownCards() throws Exception {
+        final Card[] inputPlayersCards = new Card[]{new Card(7, Suits.Clubs), new Card(10, Suits.Diamonds)};
+        final StreetPoker inputStreetPoker = StreetPoker.Turn;
+        final int expectedAnswer = 6;
+        final Distribution distribution = new Distribution(inputPlayersCards);
+        final int actualAnswer = distribution.counterKnownCards(inputStreetPoker);
+        assertEquals(expectedAnswer, actualAnswer);
+    }
 }
