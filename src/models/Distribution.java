@@ -93,4 +93,46 @@ public class Distribution {
         return new Card[]{this.getRiverCard()};
     }
 
+    public Card[] allCurrentKnownCards(StreetPoker streetPoker) {
+        Card[] allCurrentKnownCards = new Card[counterKnownCards(streetPoker)];
+        if (streetPoker == StreetPoker.PreFlop) {
+            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
+            return allCurrentKnownCards;
+        }
+        if (streetPoker == StreetPoker.Flop) {
+            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
+            System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
+            return allCurrentKnownCards;
+        }
+        if (streetPoker == StreetPoker.Turn) {
+            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
+            System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
+            allCurrentKnownCards[allCurrentKnownCards.length - 1] = this.turnCard;
+            return allCurrentKnownCards;
+        } else {
+            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
+            System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
+            allCurrentKnownCards[allCurrentKnownCards.length - 2] = this.turnCard;
+            allCurrentKnownCards[allCurrentKnownCards.length - 1] = this.riverCard;
+            return allCurrentKnownCards;
+
+        }
+    }
+
+    public int counterKnownCards(StreetPoker streetPoker) {
+        if (streetPoker == StreetPoker.PreFlop) {
+            return Game.AMOUNT_CARDS_AT_PLAYER;
+        }
+        if (streetPoker == StreetPoker.Flop) {
+            return Game.AMOUNT_CARDS_AT_PLAYER +
+                    Game.AMOUNT_CARDS_AT_FLOP;
+        }
+        if (streetPoker == StreetPoker.Turn) {
+            return Game.AMOUNT_CARDS_AT_PLAYER +
+                    Game.AMOUNT_CARDS_AT_FLOP +
+                    Game.AMOUNT_CARDS_AT_TURN;
+        }
+        return Game.AMOUNT_CARDS_AT_DISTRIBUTION;
+    }
+
 }
