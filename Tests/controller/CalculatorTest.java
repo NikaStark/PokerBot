@@ -5,6 +5,9 @@ import models.Enums.HighCard;
 import models.Enums.Suits;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -139,6 +142,109 @@ public class CalculatorTest {
 ////        final ArrayList<Card[]> actualAnswer = calculator.method(inputCards,3);
 ////        assertArrayEquals(expectedAnswer.toArray(), actualAnswer.toArray());
 //    }
+
+//    @Test
+//    public void test() throws Exception {
+//        final Calculator calculator = new Calculator();
+//        final ArrayList<Card> inputCards = new ArrayList<>(Arrays.asList(new Card[]{
+//                new Card(HighCard.Ace, Suits.Hertz),
+//                new Card(HighCard.King, Suits.Hertz),
+//                new Card(HighCard.Queen, Suits.Hertz),
+//                new Card(HighCard.Jack, Suits.Hertz)}));
+//        final ArrayList<Card[]> expectedAnswer = new ArrayList<>(Arrays.asList(new Card[][]{
+//                new Card[]{
+//                        new Card(HighCard.Ace,Suits.Hertz),
+//                        new Card(HighCard.King, Suits.Hertz),
+//                        new Card(HighCard.Queen, Suits.Hertz)
+//                },
+//                new Card[]{
+//                        new Card(HighCard.Ace, Suits.Hertz),
+//                        new Card(HighCard.King, Suits.Hertz),
+//                        new Card(HighCard.Jack, Suits.Hertz)
+//                },
+//                new Card[]{
+//                        new Card(HighCard.Ace, Suits.Hertz),
+//                        new Card(HighCard.Queen, Suits.Hertz),
+//                        new Card(HighCard.Jack, Suits.Hertz)
+//                },
+//                new Card[]{
+//                        new Card(HighCard.King, Suits.Hertz),
+//                        new Card(HighCard.Queen, Suits.Hertz),
+//                        new Card(HighCard.Jack, Suits.Hertz)
+//                }
+//        }));
+//        final ArrayList<Card[]> actualAnswer2 = calculator.smartSample1(inputCards, 3);
+//        final ArrayList<Card[]> actualAnswer1 = calculator.smartSample(inputCards, 3);
+//        for (Card[] cards : expectedAnswer) {
+//            for (Card card : cards) {
+//                System.out.print(card.toString() + " ");
+//            }
+//            System.out.println();
+//        }
+//        for (Card[] cards : actualAnswer1) {
+//            for (Card card : cards) {
+//                System.out.print(card.toString() + " ");
+//            }
+//            System.out.println();
+//        }
+//        for (Card[] cards : actualAnswer2) {
+//            for (Card card : cards) {
+//                System.out.print(card.toString() + " ");
+//            }
+//            System.out.println();
+//        }
+//        assertArrayEquals(expectedAnswer.toArray(new Card[expectedAnswer.size()][]),
+//                actualAnswer1.toArray(new Card[actualAnswer1.size()][]));
+//        assertArrayEquals(expectedAnswer.toArray(new Card[expectedAnswer.size()][]),
+//                actualAnswer2.toArray(new Card[actualAnswer2.size()][]));
+//    }
+
+    @Test
+    public void testSmartSample() throws Exception {
+        final Calculator calculator = new Calculator();
+        final ArrayList<Card> inputCards = new ArrayList<>(Arrays.asList(new Card[]{
+                new Card(HighCard.Ace, Suits.Hertz),
+                new Card(HighCard.King, Suits.Hertz),
+                new Card(HighCard.Queen, Suits.Hertz),
+                new Card(HighCard.Jack, Suits.Hertz)}));
+        final ArrayList<Card[]> expectedAnswer = new ArrayList<>(Arrays.asList(new Card[][]{
+                new Card[]{
+                        new Card(HighCard.Ace,Suits.Hertz),
+                        new Card(HighCard.King, Suits.Hertz),
+                        new Card(HighCard.Queen, Suits.Hertz)
+                },
+                new Card[]{
+                        new Card(HighCard.Ace, Suits.Hertz),
+                        new Card(HighCard.King, Suits.Hertz),
+                        new Card(HighCard.Jack, Suits.Hertz)
+                },
+                new Card[]{
+                        new Card(HighCard.Ace, Suits.Hertz),
+                        new Card(HighCard.Queen, Suits.Hertz),
+                        new Card(HighCard.Jack, Suits.Hertz)
+                },
+                new Card[]{
+                        new Card(HighCard.King, Suits.Hertz),
+                        new Card(HighCard.Queen, Suits.Hertz),
+                        new Card(HighCard.Jack, Suits.Hertz)
+                }
+        }));
+        final ArrayList<Card[]> actualAnswer = calculator.smartSample(inputCards, 3);
+//        for (Card[] cards : expectedAnswer) {
+//            for (Card card : cards) {
+//                System.out.print(card.toString() + " ");
+//            }
+//            System.out.println();
+//        }
+//        for (Card[] cards : actualAnswer) {
+//            for (Card card : cards) {
+//                System.out.print(card.toString() + " ");
+//            }
+//            System.out.println();
+//        }
+        assertArrayEquals(expectedAnswer.toArray(new Card[expectedAnswer.size()][]),
+                actualAnswer.toArray(new Card[actualAnswer.size()][]));
+    }
 
     @Test
     public void testWhatCombinationWhenRoyalFlush() throws Exception {
