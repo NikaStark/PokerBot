@@ -49,4 +49,9 @@ public class Card {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return this.numericValue + this.suit.toString();
+    }
+
 }
