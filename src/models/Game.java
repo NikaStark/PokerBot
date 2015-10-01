@@ -17,6 +17,8 @@ public class Game {
 
     public static final int AMOUNT_CARDS_AT_RIVER = 1;
 
+    public static final int AMOUNT_CARDS_AT_ANY_COMBINATION = 5;
+
     public static final int AMOUNT_CARDS_AT_DISTRIBUTION =
             AMOUNT_CARDS_AT_PLAYER +
             AMOUNT_CARDS_AT_FLOP +
