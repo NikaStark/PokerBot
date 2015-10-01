@@ -2,6 +2,6 @@ package models.Enums;
 
 public enum Combinations {
 
-    RoyalFlush, StraightFlush, FourOFAKind, FullHose, Flush, Straight, ThreeOfAKind, TwoPair, Pair, Kicker
+    Kicker, Pair, TwoPair, ThreeOfAKind, Straight, Flush, FullHose, FourOFAKind, StraightFlush, RoyalFlush
 
 }
