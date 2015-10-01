@@ -136,4 +136,13 @@ public class DistributionTest {
         final int actualAnswer = distribution.counterKnownCards(inputStreetPoker);
         assertEquals(expectedAnswer, actualAnswer);
     }
+
+    @Test
+    public void testCurrentStreetPoker() throws Exception {
+        final Card[] inputPlayersCards = new Card[]{new Card(7, Suits.Clubs), new Card(10, Suits.Diamonds)};
+        final StreetPoker expectedAnswer = StreetPoker.PreFlop;
+        final Distribution distribution = new Distribution(inputPlayersCards);
+        final StreetPoker actualAnswer = distribution.currentStreetPoker();
+        assertEquals(expectedAnswer, actualAnswer);
+    }
 }
