@@ -200,6 +200,92 @@ public class CalculatorTest {
 //    }
 
     @Test
+    public void testGetTableChances() throws Exception {
+
+    }
+
+    @Test
+    public void testCreatorPossibleCombinations() throws Exception {
+        final Calculator calculator = new Calculator();
+        final ArrayList<Card[]> inputPossibleCards = new ArrayList<>(Arrays.asList(new Card[][]{
+                new Card[] {
+                        new Card(HighCard.Ace, Suits.Clubs),
+                        new Card(2, Suits.Clubs),
+                        new Card(HighCard.Jack, Suits.Clubs),
+                        new Card(9, Suits.Diamonds),
+                        new Card(10, Suits.Hertz)
+                },
+                new Card[] {
+                        new Card(HighCard.Jack, Suits.Diamonds),
+                        new Card(5, Suits.Diamonds),
+                        new Card(HighCard.Ace, Suits.Hertz),
+                        new Card(HighCard.King, Suits.Hertz),
+                        new Card(HighCard.Queen, Suits.Hertz)
+                },
+                new Card[] {
+                        new Card(9, Suits.Clubs),
+                        new Card(HighCard.King, Suits.Spades),
+                        new Card(HighCard.Queen, Suits.Spades),
+                        new Card(HighCard.Jack, Suits.Spades),
+                        new Card(10, Suits.Spades)
+                }
+
+        }));
+        final Card[] inputKnownCard = new Card[] {
+                new Card(7, Suits.Clubs),
+                new Card(6, Suits.Hertz)};
+        final ArrayList<Card[]>  expectedAnswer = new ArrayList<>(Arrays.asList(new Card[][]{
+                new Card[] {
+                        new Card(HighCard.Ace, Suits.Clubs),
+                        new Card(2, Suits.Clubs),
+                        new Card(HighCard.Jack, Suits.Clubs),
+                        new Card(9, Suits.Diamonds),
+                        new Card(10, Suits.Hertz),
+                        new Card(7, Suits.Clubs),
+                        new Card(6, Suits.Hertz)
+                },
+                new Card[] {
+                        new Card(HighCard.Jack, Suits.Diamonds),
+                        new Card(5, Suits.Diamonds),
+                        new Card(HighCard.Ace, Suits.Hertz),
+                        new Card(HighCard.King, Suits.Hertz),
+                        new Card(HighCard.Queen, Suits.Hertz),
+                        new Card(7, Suits.Clubs),
+                        new Card(6, Suits.Hertz)
+                },
+                new Card[] {
+                        new Card(9, Suits.Clubs),
+                        new Card(HighCard.King, Suits.Spades),
+                        new Card(HighCard.Queen, Suits.Spades),
+                        new Card(HighCard.Jack, Suits.Spades),
+                        new Card(10, Suits.Spades),
+                        new Card(7, Suits.Clubs),
+                        new Card(6, Suits.Hertz)
+                }
+        }));
+        final ArrayList<Card[]> actualAnswer = calculator.createPossibleCombinations(inputPossibleCards, inputKnownCard);
+        assertArrayEquals(expectedAnswer.toArray(new Card[expectedAnswer.size()][]),
+                actualAnswer.toArray(new Card[actualAnswer.size()][]));
+    }
+
+    @Test
+    public void testSearchMaxCombination() throws Exception {
+        final Calculator calculator = new Calculator();
+        final ArrayList<Card> inputCards = new ArrayList<>(Arrays.asList(new Card[]{
+                new Card(HighCard.Ace, Suits.Clubs),
+                new Card(2, Suits.Clubs),
+                new Card(HighCard.Jack, Suits.Clubs),
+                new Card(9, Suits.Diamonds),
+                new Card(10, Suits.Hertz),
+                new Card(HighCard.Jack, Suits.Diamonds),
+                new Card(5, Suits.Diamonds)
+        }));
+        final int expectedAnswer = 1;
+        final int actualAnswer = calculator.searchMaxCombination(inputCards);
+        assertEquals(expectedAnswer, actualAnswer);
+    }
+
+    @Test
     public void testSmartSample() throws Exception {
         final Calculator calculator = new Calculator();
         final ArrayList<Card> inputCards = new ArrayList<>(Arrays.asList(new Card[]{
@@ -230,7 +316,7 @@ public class CalculatorTest {
                 }
         }));
         final ArrayList<Card[]> actualAnswer = calculator.smartSample(inputCards, 3);
-//        for (Card[] cards : expectedAnswer) {
+//        for (Card[] cards : expectedAnswer) { // Important test and this is second control
 //            for (Card card : cards) {
 //                System.out.print(card.toString() + " ");
 //            }
@@ -249,7 +335,7 @@ public class CalculatorTest {
     @Test
     public void testWhatCombinationWhenRoyalFlush() throws Exception {
         final Calculator calculator = new Calculator();
-        final int expectedAnswer = 0;
+        final int expectedAnswer = 9;
         final Card[] inputCards = new Card[] {
                 new Card(HighCard.Ace, Suits.Spades),
                 new Card(HighCard.King, Suits.Spades),
@@ -264,7 +350,7 @@ public class CalculatorTest {
     @Test
     public void testWhatCombinationWhenStraightFlush() throws Exception {
         final Calculator calculator = new Calculator();
-        final int expectedAnswer = 1;
+        final int expectedAnswer = 8;
         final Card[] inputCards = new Card[] {
                 new Card(6, Suits.Clubs),
                 new Card(8, Suits.Clubs),
@@ -279,7 +365,7 @@ public class CalculatorTest {
     @Test
     public void testWhatCombinationWhenFourOfAKind() throws Exception {
         final Calculator calculator = new Calculator();
-        final int expectedAnswer = 2;
+        final int expectedAnswer = 7;
         final Card[] inputCards = new Card[] {
                 new Card(7, Suits.Clubs),
                 new Card(7, Suits.Diamonds),
@@ -294,7 +380,7 @@ public class CalculatorTest {
     @Test
     public void testWhatCombinationWhenFullHouse() throws Exception {
         final Calculator calculator = new Calculator();
-        final int expectedAnswer = 3;
+        final int expectedAnswer = 6;
         final Card[] inputCards = new Card[] {
                 new Card(7, Suits.Clubs),
                 new Card(7, Suits.Diamonds),
@@ -309,7 +395,7 @@ public class CalculatorTest {
     @Test
     public void testWhatCombinationWhenFlush() throws Exception {
         final Calculator calculator = new Calculator();
-        final int expectedAnswer = 4;
+        final int expectedAnswer = 5;
         final Card[] inputCards = new Card[] {
                 new Card(7, Suits.Hertz),
                 new Card(4, Suits.Hertz),
@@ -324,7 +410,7 @@ public class CalculatorTest {
     @Test
     public void testWhatCombinationWhenStraight() throws Exception {
         final Calculator calculator = new Calculator();
-        final int expectedAnswer = 5;
+        final int expectedAnswer = 4;
         final Card[] inputCards = new Card[] {
                 new Card(6, Suits.Clubs),
                 new Card(4, Suits.Hertz),
@@ -339,7 +425,7 @@ public class CalculatorTest {
     @Test
     public void testWhatCombinationWhenThreeOfAKind() throws Exception {
         final Calculator calculator = new Calculator();
-        final int expectedAnswer = 6;
+        final int expectedAnswer = 3;
         final Card[] inputCards = new Card[] {
                 new Card(6, Suits.Clubs),
                 new Card(4, Suits.Hertz),
@@ -354,7 +440,7 @@ public class CalculatorTest {
     @Test
     public void testWhatCombinationWhenTwoPair() throws Exception {
         final Calculator calculator = new Calculator();
-        final int expectedAnswer = 7;
+        final int expectedAnswer = 2;
         final Card[] inputCards = new Card[] {
                 new Card(8, Suits.Diamonds),
                 new Card(7, Suits.Hertz),
@@ -369,7 +455,7 @@ public class CalculatorTest {
     @Test
     public void testWhatCombinationWhenPair() throws Exception {
         final Calculator calculator = new Calculator();
-        final int expectedAnswer = 8;
+        final int expectedAnswer = 1;
         final Card[] inputCards = new Card[] {
                 new Card(8, Suits.Diamonds),
                 new Card(7, Suits.Hertz),
@@ -384,7 +470,7 @@ public class CalculatorTest {
     @Test
     public void testWhatCombinationWhenKicker() throws Exception {
         final Calculator calculator = new Calculator();
-        final int expectedAnswer = 9;
+        final int expectedAnswer = 0;
         final Card[] inputCards = new Card[] {
                 new Card(8, Suits.Diamonds),
                 new Card(7, Suits.Hertz),
