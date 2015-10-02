@@ -3,6 +3,7 @@ package controller;
 import models.Card;
 import models.Distribution;
 import models.Enums.Combinations;
+import models.Enums.StreetPoker;
 import models.Game;
 
 import java.util.ArrayList;
@@ -168,8 +169,28 @@ public class Calculator {
 //    }
 
 
-    public int[] getTableChances(Distribution currentDistribution) {
-        return null;
+    public int[] getTableChances(Distribution currentDistribution) { // This method is not testing at this version
+        int[] results = new int[Combinations.values().length];
+        StreetPoker currentStreetPoker = currentDistribution.currentStreetPoker();
+        ArrayList<Card[]> possibleCards = smartSample(currentDistribution.getCurrentDeck(),
+                Game.AMOUNT_CARDS_AT_DISTRIBUTION - currentDistribution.counterKnownCards(currentStreetPoker));
+        ArrayList<Card[]> possibleCombinations = createPossibleCombinations(possibleCards,
+                currentDistribution.allCurrentKnownCards(currentStreetPoker));
+        for (Card[] cards : possibleCombinations) {
+            results[searchMaxCombination(new ArrayList<>(Arrays.asList(cards)))] += 1; //TODO try operation increment
+        }
+        return results;
+    }
+
+    public ArrayList<Card[]> createPossibleCombinations(ArrayList<Card[]> possibleCards, Card[] knownCards) {
+        ArrayList<Card[]> possibleCombinations = new ArrayList<>(possibleCards.size());
+        for (Card[] cards : possibleCards) {
+            Card[] possibleCombination = new Card[Game.AMOUNT_CARDS_AT_DISTRIBUTION];
+            System.arraycopy(cards, 0, possibleCombination, 0, cards.length);
+            System.arraycopy(knownCards, 0, possibleCombination, cards.length, knownCards.length);
+            possibleCombinations.add(possibleCombination);
+        }
+        return possibleCombinations;
     }
 
     public ArrayList<Card[]> smartSample(ArrayList<Card> src, int amountPosition) {
@@ -204,6 +225,17 @@ public class Calculator {
             result *= (srcSize - i) / (amountPosition - i);
         }
         return result;
+    }
+
+    public int searchMaxCombination(ArrayList<Card> possibleCombination) {
+        int indexCurrentCombination, indexMaxCombination = 0;
+        for (Card[] cards : smartSample(possibleCombination, Game.AMOUNT_CARDS_AT_ANY_COMBINATION)) {
+            indexCurrentCombination = whatCombination(cards);
+            if (indexCurrentCombination > indexMaxCombination) {
+                indexMaxCombination = indexCurrentCombination;
+            }
+        }
+        return indexMaxCombination;
     }
 
     public int whatCombination(Card[] possibleCombination) {
