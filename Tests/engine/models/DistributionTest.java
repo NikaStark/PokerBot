@@ -1,8 +1,11 @@
-package models;
+package engine.models;
 
-import models.Enums.StreetPoker;
-import models.Enums.Suits;
-import models.exceptions.ReassigningFieldException;
+import engine.models.Card;
+import engine.models.Distribution;
+import engine.models.Game;
+import engine.models.Enums.StreetPoker;
+import engine.models.Enums.Suits;
+import engine.models.exceptions.ReassigningFieldException;
 import org.junit.Test;
 
 import java.util.ArrayList;

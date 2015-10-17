@@ -1,8 +1,9 @@
-package controller;
+package engine.calculator;
 
-import models.Card;
-import models.Enums.HighCard;
-import models.Enums.Suits;
+import engine.calculator.Calculator;
+import engine.models.Card;
+import engine.models.Enums.HighCard;
+import engine.models.Enums.Suits;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class CalculatorTest {
 //    public void testCreateCurrentDeckOfCards() throws Exception {
 //        Card[] currentKnownCards = new Card[]{new Card(3, Suits.Spades), new Card(4, Suits.Spades)};
 //        Distribution distribution = new Distribution(currentKnownCards);
-//        Calculator calculator = new Calculator(distribution);
+//        calculator calculator = new calculator(distribution);
 ////        System.out.println(calculator.bestCombination(new Card[]{new Card(2, Suits.Spades), new Card(3, Suits.Spades), new Card(4, Suits.Spades),
 ////                new Card(5, Suits.Spades), new Card(6, Suits.Spades), new Card(9, Suits.Spades), new Card(10, Suits.Spades)}));
 ////        System.out.println();
@@ -60,7 +61,7 @@ public class CalculatorTest {
 //
 //    @Test
 //    public void testBestCombination() throws Exception {
-//        final Calculator calculator = new Calculator(null);
+//        final calculator calculator = new calculator(null);
 //        final int expectedAnswer = 7;
 //        final Card[] inputCards = new Card[]{
 //                new Card(8, Suits.Spades),
@@ -78,7 +79,7 @@ public class CalculatorTest {
 //
 //    @Test
 //    public void testCleverSortOut() throws Exception {
-//        final Calculator calculator = new Calculator(null);
+//        final calculator calculator = new calculator(null);
 //        final ArrayList<Card[]> expectedAnswer = new ArrayList<>(
 //                Arrays.asList(
 //                new Card[]{
@@ -112,7 +113,7 @@ public class CalculatorTest {
 //
 //    @Test
 //    public void testMethod() throws Exception {
-//        final Calculator calculator = new Calculator(null);
+//        final calculator calculator = new calculator(null);
 //        final ArrayList<Card[]> expectedAnswer = new ArrayList<>(
 //                Arrays.asList(
 //                        new Card[]{
@@ -145,7 +146,7 @@ public class CalculatorTest {
 
 //    @Test
 //    public void test() throws Exception {
-//        final Calculator calculator = new Calculator();
+//        final calculator calculator = new calculator();
 //        final ArrayList<Card> inputCards = new ArrayList<>(Arrays.asList(new Card[]{
 //                new Card(HighCard.Ace, Suits.Hertz),
 //                new Card(HighCard.King, Suits.Hertz),

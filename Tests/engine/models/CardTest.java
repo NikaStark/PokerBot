@@ -1,7 +1,8 @@
-package models;
+package engine.models;
 
-import models.Enums.HighCard;
-import models.Enums.Suits;
+import engine.models.Card;
+import engine.models.Enums.HighCard;
+import engine.models.Enums.Suits;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
