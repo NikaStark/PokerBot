@@ -1,7 +1,7 @@
-package models;
+package engine.models;
 
-import models.Enums.HighCard;
-import models.Enums.Suits;
+import engine.models.Enums.HighCard;
+import engine.models.Enums.Suits;
 
 public class Game {
 

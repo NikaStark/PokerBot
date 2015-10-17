@@ -1,6 +1,6 @@
-package models;
+package engine.models;
 
-import controller.Calculator;
+import engine.calculator.Calculator;
 
 public class Table {
 

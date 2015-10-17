@@ -1,7 +1,7 @@
-package models;
+package engine.models;
 
-import models.Enums.StreetPoker;
-import models.exceptions.ReassigningFieldException;
+import engine.models.Enums.StreetPoker;
+import engine.models.exceptions.ReassigningFieldException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
