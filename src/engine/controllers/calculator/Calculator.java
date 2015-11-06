@@ -1,4 +1,4 @@
-package engine.calculator;
+package engine.controllers.calculator;
 
 import engine.models.Card;
 import engine.models.Distribution;
