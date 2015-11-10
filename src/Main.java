@@ -1,5 +1,6 @@
 //Created by NikaStark on 28.07.2015.
 
+import engine.models.Game;
 import scanner.Scanner;
 
 import java.io.File;
@@ -8,10 +9,11 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        final String pathInputOrigin = "C:\\Users\\Alex\\Desktop\\PokerStars.log.0";
+        final String pathInputOrigin = "C:\\Users\\Alex\\AppData\\Local\\PokerStars\\PokerStars.log.0";
         final File fileInput = new File(pathInputOrigin);
+        Game game = new Game();
         Scanner scanner = new Scanner();
-        scanner.scanner(fileInput);
+        scanner.scanner(fileInput, game);
 
     }
 
