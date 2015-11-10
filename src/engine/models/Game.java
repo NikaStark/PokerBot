@@ -3,6 +3,8 @@ package engine.models;
 import engine.models.Enums.HighCard;
 import engine.models.Enums.Suits;
 
+import java.util.ArrayList;
+
 public class Game {
 
     public static final int MAX_NUMERIC_VALUE_CARD = 10;
@@ -43,4 +45,9 @@ public class Game {
         }
     }
 
+    private ArrayList<Table> tables = new ArrayList<>(3);
+
+    public ArrayList<Table> getTables() {
+        return tables;
+    }
 }
