@@ -1,6 +1,5 @@
 package engine.models;
 
-import engine.models.Enums.StreetPoker;
 import engine.models.exceptions.ReassigningFieldException;
 
 import java.util.ArrayList;
@@ -17,6 +16,13 @@ public class Distribution {
     private Card riverCard;
 
     private ArrayList<Card> currentDeck;
+
+    public enum StreetPoker {
+
+        PreFlop, Flop, Turn, River
+
+    }
+
 
     public Distribution(Card[] cardsOfPlayer) {
         this.cardsOfPlayer = cardsOfPlayer;
