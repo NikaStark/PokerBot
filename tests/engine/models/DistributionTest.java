@@ -1,9 +1,5 @@
 package engine.models;
 
-import engine.models.Card;
-import engine.models.Distribution;
-import engine.models.Game;
-import engine.models.Enums.StreetPoker;
 import engine.models.Enums.Suits;
 import engine.models.exceptions.ReassigningFieldException;
 import org.junit.Test;
@@ -111,7 +107,7 @@ public class DistributionTest {
         final Card[] inputFlopCards = new Card[]{new Card(7, Suits.Clubs), new Card(2, Suits.Diamonds), new Card(9, Suits.Hertz)};
         final Card[] expectedAnswer = inputFlopCards;
         final Distribution distribution = new Distribution(inputPlayersCards);
-        final StreetPoker inputStreetPoker = StreetPoker.Flop;
+        final Distribution.StreetPoker inputStreetPoker = Distribution.StreetPoker.Flop;
         distribution.setFlopCards(inputFlopCards);
         final Card[] actualAnswer = distribution.currentKnownCards(inputStreetPoker);
         assertArrayEquals(expectedAnswer, actualAnswer);
@@ -124,7 +120,7 @@ public class DistributionTest {
         final Card[] expectedAnswer = new Card[]{new Card(7, Suits.Clubs), new Card(10, Suits.Diamonds), new Card(7, Suits.Clubs),
                 new Card(2, Suits.Diamonds), new Card(9, Suits.Hertz)};
         final Distribution distribution = new Distribution(inputPlayersCards);
-        final StreetPoker inputStreetPoker = StreetPoker.Flop;
+        final Distribution.StreetPoker inputStreetPoker = Distribution.StreetPoker.Flop;
         distribution.setFlopCards(inputFlopCards);
         final Card[] actualAnswer = distribution.allCurrentKnownCards(inputStreetPoker);
         assertArrayEquals(expectedAnswer, actualAnswer);
@@ -133,7 +129,7 @@ public class DistributionTest {
     @Test
     public void testCounterKnownCards() throws Exception {
         final Card[] inputPlayersCards = new Card[]{new Card(7, Suits.Clubs), new Card(10, Suits.Diamonds)};
-        final StreetPoker inputStreetPoker = StreetPoker.Turn;
+        final Distribution.StreetPoker inputStreetPoker = Distribution.StreetPoker.Turn;
         final int expectedAnswer = 6;
         final Distribution distribution = new Distribution(inputPlayersCards);
         final int actualAnswer = distribution.counterKnownCards(inputStreetPoker);
@@ -143,9 +139,9 @@ public class DistributionTest {
     @Test
     public void testCurrentStreetPoker() throws Exception {
         final Card[] inputPlayersCards = new Card[]{new Card(7, Suits.Clubs), new Card(10, Suits.Diamonds)};
-        final StreetPoker expectedAnswer = StreetPoker.PreFlop;
+        final Distribution.StreetPoker expectedAnswer = Distribution.StreetPoker.PreFlop;
         final Distribution distribution = new Distribution(inputPlayersCards);
-        final StreetPoker actualAnswer = distribution.currentStreetPoker();
+        final Distribution.StreetPoker actualAnswer = distribution.currentStreetPoker();
         assertEquals(expectedAnswer, actualAnswer);
     }
 }
