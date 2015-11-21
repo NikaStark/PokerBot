@@ -75,7 +75,7 @@ public class Scanner {
        return tempString.charAt(0) != 'G' || tempString.charAt(1) != 'a';
     }
 
-    public boolean isImportant(final String tempString) {
+    public boolean isImportant(final String tempString) { // TODO maybe switch be better practice
         char firstChar = tempString.charAt(0);
         char secondChar = tempString.charAt(1);
         if (firstChar != '<' || secondChar != '-') {
@@ -128,7 +128,7 @@ public class Scanner {
                     break;
             }
             if (readerPointer == 0) {
-                return null;
+                break;
             }
             readerPointer--;
             inputFile.seek(readerPointer);
