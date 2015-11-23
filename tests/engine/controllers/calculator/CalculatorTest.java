@@ -8,8 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 
 public class CalculatorTest {
@@ -485,7 +484,6 @@ public class CalculatorTest {
     @Test
     public void testIsRoyalFlushWhenTrue() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = true;
         final Card[] inputCards = new Card[]{
                 new Card(HighCard.Ace, Suits.Spades),
                 new Card(HighCard.King, Suits.Spades),
@@ -494,13 +492,12 @@ public class CalculatorTest {
                 new Card(10, Suits.Spades)};
 
         final boolean actualAnswer = calculator.isRoyalFlush(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertTrue(actualAnswer);
     }
 
     @Test
     public void testIsRoyalFlushWhenFalse() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = false;
         final Card[] inputCards = new Card[]{
                 new Card(HighCard.Ace, Suits.Spades),
                 new Card(HighCard.King, Suits.Spades),
@@ -509,13 +506,12 @@ public class CalculatorTest {
                 new Card(9, Suits.Spades)};
 
         final boolean actualAnswer = calculator.isRoyalFlush(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertFalse(actualAnswer);
     }
 
     @Test
     public void testIsStraightFlushTrue() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = true;
         final Card[] inputCards = new Card[]{
                 new Card(9, Suits.Spades),
                 new Card(HighCard.King, Suits.Spades),
@@ -524,13 +520,12 @@ public class CalculatorTest {
                 new Card(10, Suits.Spades)};
 
         final boolean actualAnswer = calculator.isStraightFlush(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertTrue(actualAnswer);
     }
 
     @Test
     public void testIsStraightFlushFalse() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = false;
         final Card[] inputCards = new Card[]{
                 new Card(9, Suits.Clubs),
                 new Card(HighCard.King, Suits.Spades),
@@ -539,13 +534,12 @@ public class CalculatorTest {
                 new Card(10, Suits.Spades)};
 
         final boolean actualAnswer = calculator.isStraightFlush(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertFalse(actualAnswer);
     }
 
     @Test
     public void testIsFourOFAKindTrue() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = true;
         final Card[] inputCards = new Card[]{
                 new Card(HighCard.Ace, Suits.Spades),
                 new Card(HighCard.King, Suits.Spades),
@@ -554,13 +548,12 @@ public class CalculatorTest {
                 new Card(HighCard.King, Suits.Diamonds)};
 
         final boolean actualAnswer = calculator.isFourOFAKind(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertTrue(actualAnswer);
     }
 
     @Test
     public void testIsFourOFAKindFalse() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = false;
         final Card[] inputCards = new Card[]{
                 new Card(HighCard.Ace, Suits.Spades),
                 new Card(HighCard.King, Suits.Spades),
@@ -569,13 +562,12 @@ public class CalculatorTest {
                 new Card(HighCard.Ace, Suits.Diamonds)};
 
         final boolean actualAnswer = calculator.isFourOFAKind(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertFalse(actualAnswer);
     }
 
     @Test
     public void testIsFullHouseTrue() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = true;
         final Card[] inputCards = new Card[]{
                 new Card(HighCard.Ace, Suits.Spades),
                 new Card(HighCard.Ace, Suits.Diamonds),
@@ -584,13 +576,12 @@ public class CalculatorTest {
                 new Card(HighCard.King, Suits.Diamonds)};
 
         final boolean actualAnswer = calculator.isFullHouse(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertTrue(actualAnswer);
     }
 
     @Test
     public void testIsFullHouseFalse() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = false;
         final Card[] inputCards = new Card[]{
                 new Card(HighCard.Ace, Suits.Spades),
                 new Card(HighCard.Ace, Suits.Diamonds),
@@ -599,13 +590,12 @@ public class CalculatorTest {
                 new Card(HighCard.Jack, Suits.Diamonds)};
 
         final boolean actualAnswer = calculator.isFullHouse(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertFalse(actualAnswer);
     }
 
     @Test
     public void testIsFlushTrue() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = true;
         final Card[] inputCards = new Card[]{
                 new Card(9, Suits.Hertz),
                 new Card(4, Suits.Hertz),
@@ -614,13 +604,12 @@ public class CalculatorTest {
                 new Card(3, Suits.Hertz)};
 
         final boolean actualAnswer = calculator.isFlush(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertTrue(actualAnswer);
     }
 
     @Test
     public void testIsFlushFalse() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = false;
         final Card[] inputCards = new Card[]{
                 new Card(9, Suits.Hertz),
                 new Card(8, Suits.Hertz),
@@ -629,13 +618,12 @@ public class CalculatorTest {
                 new Card(5, Suits.Hertz)};
 
         final boolean actualAnswer = calculator.isFlush(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertFalse(actualAnswer);
     }
 
     @Test
     public void testIsStraightTrue() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = true;
         final Card[] inputCards = new Card[]{
                 new Card(9, Suits.Diamonds),
                 new Card(8, Suits.Hertz),
@@ -644,13 +632,12 @@ public class CalculatorTest {
                 new Card(5, Suits.Hertz)};
 
         final boolean actualAnswer = calculator.isStraight(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertTrue(actualAnswer);
     }
 
     @Test
     public void testIsStraightFalse() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = false;
         final Card[] inputCards = new Card[]{
                 new Card(9, Suits.Diamonds),
                 new Card(8, Suits.Hertz),
@@ -659,13 +646,12 @@ public class CalculatorTest {
                 new Card(5, Suits.Hertz)};
 
         final boolean actualAnswer = calculator.isStraight(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertFalse(actualAnswer);
     }
 
     @Test
     public void testIsThreeOfAKindTrue() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = true;
         final Card[] inputCards = new Card[]{
                 new Card(HighCard.Ace, Suits.Diamonds),
                 new Card(HighCard.King, Suits.Hertz),
@@ -674,13 +660,12 @@ public class CalculatorTest {
                 new Card(6, Suits.Clubs)};
 
         final boolean actualAnswer = calculator.isThreeOfAKind(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertTrue(actualAnswer);
     }
 
     @Test
     public void testIsThreeOfAKindFalse() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = false;
         final Card[] inputCards = new Card[]{
                 new Card(HighCard.Ace, Suits.Diamonds),
                 new Card(HighCard.King, Suits.Hertz),
@@ -689,13 +674,12 @@ public class CalculatorTest {
                 new Card(4, Suits.Clubs)};
 
         final boolean actualAnswer = calculator.isThreeOfAKind(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertFalse(actualAnswer);
     }
 
     @Test
     public void testIsTwoPairTrue() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = true;
         final Card[] inputCards = new Card[]{
                 new Card(HighCard.Ace, Suits.Diamonds),
                 new Card(9, Suits.Hertz),
@@ -704,13 +688,12 @@ public class CalculatorTest {
                 new Card(6, Suits.Clubs)};
 
         final boolean actualAnswer = calculator.isTwoPair(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertTrue(actualAnswer);
     }
 
     @Test
     public void testIsTwoPairFalse() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = false;
         final Card[] inputCards = new Card[]{
                 new Card(HighCard.Ace, Suits.Diamonds),
                 new Card(10, Suits.Hertz),
@@ -719,13 +702,12 @@ public class CalculatorTest {
                 new Card(6, Suits.Clubs)};
 
         final boolean actualAnswer = calculator.isTwoPair(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertFalse(actualAnswer);
     }
 
     @Test
     public void testIsPairTrue() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = true;
         final Card[] inputCards = new Card[]{
                 new Card(HighCard.Ace, Suits.Diamonds),
                 new Card(10, Suits.Hertz),
@@ -734,13 +716,12 @@ public class CalculatorTest {
                 new Card(6, Suits.Clubs)};
 
         final boolean actualAnswer = calculator.isPair(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertTrue(actualAnswer);
     }
 
     @Test
     public void testIsPairFalse() throws Exception {
         final Calculator calculator = new Calculator();
-        final boolean expectedAnswer = false;
         final Card[] inputCards = new Card[]{
                 new Card(HighCard.Ace, Suits.Diamonds),
                 new Card(10, Suits.Hertz),
@@ -749,7 +730,7 @@ public class CalculatorTest {
                 new Card(3, Suits.Clubs)};
 
         final boolean actualAnswer = calculator.isPair(inputCards);
-        assertEquals(expectedAnswer, actualAnswer);
+        assertFalse(actualAnswer);
     }
 
     @Test
