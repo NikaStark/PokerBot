@@ -171,12 +171,12 @@ public class Calculator {
     public int[] getTableChances(Distribution currentDistribution) { // This method is not testing at this version
         int[] results = new int[Combinations.values().length];
         Distribution.StreetPoker currentStreetPoker = currentDistribution.currentStreetPoker();
-        long t1=System.nanoTime();
+//        long t1=System.nanoTime();
         ArrayList<Card[]> possibleCards = smartSample(currentDistribution.getCurrentDeck(),
                 Game.AMOUNT_CARDS_AT_DISTRIBUTION - currentDistribution.counterKnownCards(currentStreetPoker));
-        long t2 = System.nanoTime();
-        long elapsedTime = t2-t1;
-        System.out.println("Elapsed time was "+elapsedTime+" ns");
+//        long t2 = System.nanoTime();
+//        long elapsedTime = t2-t1;
+//        System.out.println("Elapsed time was "+elapsedTime+" ns");
         ArrayList<Card[]> possibleCombinations = createPossibleCombinations(possibleCards,
                 currentDistribution.allCurrentKnownCards(currentStreetPoker));
         for (Card[] cards : possibleCombinations) {
@@ -239,25 +239,25 @@ public class Calculator {
 
     public int whatCombination(Card[] possibleCombination) {
         if (isRoyalFlush(possibleCombination)) {
-            return (new ArrayList<>(Arrays.asList(Combinations.values()))).indexOf(Combinations.RoyalFlush);
+            return Game.COMBINATIONS.get("RoyalFlush");
         } else if (isStraightFlush(possibleCombination)) {
-            return (new ArrayList<>(Arrays.asList(Combinations.values()))).indexOf(Combinations.StraightFlush);
+            return Game.COMBINATIONS.get("StraightFlush");
         } else if (isFourOFAKind(possibleCombination)) {
-            return (new ArrayList<>(Arrays.asList(Combinations.values()))).indexOf(Combinations.FourOFAKind);
+            return Game.COMBINATIONS.get("FourOFAKind");
         } else if (isFullHouse(possibleCombination)) {
-            return (new ArrayList<>(Arrays.asList(Combinations.values()))).indexOf(Combinations.FullHose);
+            return Game.COMBINATIONS.get("FullHose");
         } else if (isFlush(possibleCombination)) {
-            return (new ArrayList<>(Arrays.asList(Combinations.values()))).indexOf(Combinations.Flush);
+            return Game.COMBINATIONS.get("Flush");
         } else if (isStraight(possibleCombination)) {
-            return (new ArrayList<>(Arrays.asList(Combinations.values()))).indexOf(Combinations.Straight);
+            return Game.COMBINATIONS.get("Straight");
         }else if (isThreeOfAKind(possibleCombination)) {
-            return (new ArrayList<>(Arrays.asList(Combinations.values()))).indexOf(Combinations.ThreeOfAKind);
+            return Game.COMBINATIONS.get("ThreeOfAKind");
         } else if (isTwoPair(possibleCombination)) {
-            return (new ArrayList<>(Arrays.asList(Combinations.values()))).indexOf(Combinations.TwoPair);
+            return Game.COMBINATIONS.get("TwoPair");
         }else if (isPair(possibleCombination)) {
-            return (new ArrayList<>(Arrays.asList(Combinations.values()))).indexOf(Combinations.Pair);
+            return Game.COMBINATIONS.get("Pair");
         } else {
-            return (new ArrayList<>(Arrays.asList(Combinations.values()))).indexOf(Combinations.Kicker);
+            return Game.COMBINATIONS.get("Kicker");
         }
     }
 
