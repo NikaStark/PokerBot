@@ -1,6 +1,8 @@
 package scanner;
 
 
+import engine.models.Game;
+import engine.models.Table;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,6 +24,7 @@ public class ScannerTest {
             "VC++ __active_heap = 1",
             "HeapQueryInformation=2",
             "GetProcessAffinityMask=0xF",
+            "maxTablePlayers = 6",
             "GetProcessAffinityMask=0xF",
             "tryLock supported",
             "PID=6072"
@@ -49,8 +52,52 @@ public class ScannerTest {
     }
 
     @Test
+    public void testSearchMaxTablePlayers() throws Exception {
+        final Scanner scanner = new Scanner();
+        final int expectedResult = 6;
+        int actualResult = -1;
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile(tempFile, "r")) {
+            actualResult = scanner.searchMaxTablePlayers(randomAccessFile);
+        } catch (IOException exc) {
+            System.out.println("I/O Error: " + exc);
+        }
+        assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void testIsTableNewWhenTableAbsent() throws Exception {
+        final Game game = new Game();
+        final Scanner scanner = new Scanner();
+        final String tempString = "Game #142837817463 005D0A28";
+        final boolean actualResult = scanner.isTableNew(tempString, game);
+        assertTrue(actualResult);
+    }
+
+    @Test
+    public void testIsTableNewWhenTableNew() throws Exception {
+        final Game game = new Game();
+        final Scanner scanner = new Scanner();
+        final Table table = new Table("321DF898", 6);
+        game.addTables(table);
+        final String tempString = "Game #142837817463 005D0A28";
+        final boolean actualResult = scanner.isTableNew(tempString, game);
+        assertTrue(actualResult);
+    }
+
+    @Test
+    public void testIsTableNewWhenTableNotNew() throws Exception {
+        final Game game = new Game();
+        final Scanner scanner = new Scanner();
+        final Table table = new Table("005D0A28", 6);
+        game.addTables(table);
+        final String tempString = "Game #142837817463 005D0A28";
+        final boolean actualResult = scanner.isTableNew(tempString, game);
+        assertFalse(actualResult);
+    }
+
+    @Test
     public void testReadReverseFile() throws Exception {
-        Scanner scanner = new Scanner();
+        final Scanner scanner = new Scanner();
         try (RandomAccessFile randomAccessFile = new RandomAccessFile(tempFile, "r")) {
             for (int i = input.length - 1; i >= 0; i--) {
                 String line = scanner.readReverseFile(randomAccessFile);
@@ -63,4 +110,5 @@ public class ScannerTest {
             System.out.println("I/O Error: " + exc);
         }
     }
+
 }
