@@ -71,4 +71,9 @@ public class Game {
     public ArrayList<Table> getTables() {
         return tables;
     }
+
+    public void addTables(final Table table) {
+        tables.add(table);
+    }
+
 }
