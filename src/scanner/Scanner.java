@@ -48,8 +48,11 @@ public class Scanner {
             }
         }
         if (isTableNew(tempString, game)) {
-
+            String hexKeyOfNewTable = tempString.substring(19);
+            int maxTablePlayersOfNewTable = searchMaxTablePlayers(randomAccessFile);
+            game.addTables(new Table(hexKeyOfNewTable, maxTablePlayersOfNewTable));
         }
+        tempStorage.add(tempString);
         try (PrintStream outputFile = new PrintStream(new FileOutputStream(pathOutput))) {
             for (int i = tempStorage.size() - 1; i >= 0; i++) {
                 outputFile.println(tempStorage.get(i));
@@ -59,16 +62,33 @@ public class Scanner {
         }
     }
 
+
+    public int searchMaxTablePlayers(RandomAccessFile randomAccessFile) throws IOException {
+        String tempString;
+        char count = 0;
+        while ((tempString = readReverseFile(randomAccessFile)) != null) {
+            if (tempString.charAt(0) == 'm' && tempString.charAt(1) == 'a') {
+                count = tempString.charAt(18);
+                switch(count) {
+                    case '2': return 2;
+                    case '6': return 6;
+                    case '9': return 9;
+                }
+            }
+        }
+        return count;
+    }
+
     public boolean isTableNew(final String tempString, Game game) {
         if (game.getTables().size() != 0) {
             String tempHexKey = tempString.substring(19);
             for (Table table : game.getTables()) {
                 if (tempHexKey.equals(table.getHexKey())) {
-                    return true;
+                    return false;
                 }
             }
         }
-        return false;
+        return true;
     }
 
     public boolean isStartOfDistribution(final String tempString) {
