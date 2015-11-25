@@ -1,4 +1,4 @@
-package scanner;
+package inputer;
 
 import engine.models.Game;
 import engine.models.Table;
