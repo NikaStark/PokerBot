@@ -27,7 +27,8 @@ public class ScannerTest {
             "maxTablePlayers = 6",
             "GetProcessAffinityMask=0xF",
             "tryLock supported",
-            "PID=6072"
+            "PID=6072",
+            " '*' 'E' 2000, 49000, 1000, 100"
     };
 
     @BeforeClass
@@ -93,6 +94,58 @@ public class ScannerTest {
         final String tempString = "Game #142837817463 005D0A28";
         final boolean actualResult = scanner.isTableNew(tempString, game);
         assertFalse(actualResult);
+    }
+
+    @Test
+    public void testIsStartOfDistributionWhenStart() throws Exception {
+        final Scanner scanner = new Scanner();
+        final String inputTempString = "Game #142837817463 005D0A28";
+        final boolean expectedAnswer = scanner.isStartOfDistribution(inputTempString);
+        assertTrue(expectedAnswer);
+    }
+
+    @Test
+    public void testIsStartOfDistributionWhenNotStart() throws Exception {
+        final Scanner scanner = new Scanner();
+        final String inputTempString = "tryLock supported";
+        final boolean expectedAnswer = scanner.isStartOfDistribution(inputTempString);
+        assertFalse(expectedAnswer);
+    }
+
+    @Test
+    public void testIsImportantWhenTrue() throws Exception {
+        final Scanner scanner = new Scanner();
+        final String inputTempString = "sit0";
+        final boolean expectedAnswer = scanner.isImportant(inputTempString);
+        assertTrue(expectedAnswer);
+    }
+
+    @Test
+    public void testIsImportantWhenFalse() throws Exception {
+        final Scanner scanner = new Scanner();
+        final String inputTempString = "Table::AdvActions::config() 0865B768";
+        final boolean expectedAnswer = scanner.isImportant(inputTempString);
+        assertFalse(expectedAnswer);
+    }
+
+    @Test
+     public void testTimeToReadingWhenTrue() throws Exception {
+        final Scanner scanner = new Scanner();
+        final boolean expectedAnswer = scanner.timeToReading(tempFile);
+        assertTrue(expectedAnswer);
+    }
+
+    @Test
+    public void testTimeToReadingWhenFalse() throws Exception {
+        final Scanner scanner = new Scanner();
+        final String newLastLineOfTempFile = " act 'C' 24000";
+        try (PrintStream file = new PrintStream(new FileOutputStream(tempFile))) {
+            file.print(newLastLineOfTempFile + "\r\n");
+        } catch (IOException exc) {
+            System.out.println("I/O Error: " + exc);
+        }
+        final boolean expectedAnswer = scanner.timeToReading(tempFile);
+        assertFalse(expectedAnswer);
     }
 
     @Test
