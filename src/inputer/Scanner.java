@@ -47,14 +47,14 @@ public class Scanner {
                tempStorage.add(tempString);
             }
         }
+        tempStorage.add(tempString);
         if (isTableNew(tempString, game)) {
             String hexKeyOfNewTable = tempString.substring(19);
             int maxTablePlayersOfNewTable = searchMaxTablePlayers(randomAccessFile);
             game.addTables(new Table(hexKeyOfNewTable, maxTablePlayersOfNewTable));
         }
-        tempStorage.add(tempString);
         try (PrintStream outputFile = new PrintStream(new FileOutputStream(pathOutput))) {
-            for (int i = tempStorage.size() - 1; i >= 0; i++) {
+            for (int i = tempStorage.size() - 1; i >= 0; i--) {
                 outputFile.println(tempStorage.get(i));
             }
         } catch (IOException exc) {
@@ -67,7 +67,7 @@ public class Scanner {
         String tempString;
         char count = 0;
         while ((tempString = readReverseFile(randomAccessFile)) != null) {
-            if (tempString.charAt(0) == 'm' && tempString.charAt(1) == 'a') {
+            if (tempString.length() >= 3 && tempString.substring(0, 3).equals("max")) {
                 count = tempString.charAt(18);
                 switch(count) {
                     case '2': return 2;
@@ -92,17 +92,20 @@ public class Scanner {
     }
 
     public boolean isStartOfDistribution(final String tempString) {
-       return tempString.charAt(0) != 'G' || tempString.charAt(1) != 'a';
+        return tempString.length() >= 4 && tempString.substring(0, 4).equals("Game");
     }
 
-    public boolean isImportant(final String tempString) { // TODO maybe switch be better practice
-        char firstChar = tempString.charAt(0);
-        char secondChar = tempString.charAt(1);
-        if (firstChar != '<' || secondChar != '-') {
-            if (firstChar != '-' || secondChar != '>') {
-                if (firstChar != 'M' || secondChar != 's') {
-                    if (firstChar != 'C' || secondChar != 'o') {
-                        return true;
+    public boolean isImportant(final String tempString) {
+        if (tempString.length() >= 2) {
+            String subString = tempString.substring(0,2);
+            if (!subString.equals("<-")) {
+                if (!subString.equals("->")) {
+                    if (!subString.equals("Ms")) {
+                        if (!subString.equals("Co")) {
+                            if (!subString.equals("Ta")) {
+                                return true;
+                            }
+                        }
                     }
                 }
             }
@@ -119,7 +122,8 @@ public class Scanner {
                 do {
                     currentLastLine = readReverseFile(randomAccessFile);
                 } while (!isImportant(currentLastLine));
-                if (currentLastLine.charAt(0) == 'T' && currentLastLine.charAt(1) == 'a') {
+                String subString = currentLastLine.length() >= 3 ? currentLastLine.substring(1, 4) : "";
+                if (subString.equals("'*'") || subString.equals("'C'")) {
                     return true;
                 }
             }
