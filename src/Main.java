@@ -1,7 +1,7 @@
 //Created by NikaStark on 28.07.2015.
 
 import engine.models.Game;
-import scanner.Scanner;
+import inputer.Scanner;
 
 import java.io.File;
 
