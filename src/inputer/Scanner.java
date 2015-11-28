@@ -13,6 +13,15 @@ import java.util.Date;
 
 public class Scanner {
 
+    private static final String[] filters = new String[] {
+            "<- ",
+            "-> ",
+            "Msg",
+            "Com",
+            "Tab",
+            "OnT"
+    };
+
     public boolean scanner(File fileInput, Game game) {
         while (true) {
             try (RandomAccessFile randomAccessFile = new RandomAccessFile(fileInput, "r")) {
@@ -97,18 +106,13 @@ public class Scanner {
 
     public boolean isImportant(final String tempString) {
         if (tempString.length() >= 2) {
-            String subString = tempString.substring(0,2);
-            if (!subString.equals("<-")) {
-                if (!subString.equals("->")) {
-                    if (!subString.equals("Ms")) {
-                        if (!subString.equals("Co")) {
-                            if (!subString.equals("Ta")) {
-                                return true;
-                            }
-                        }
-                    }
+            String subString = tempString.substring(0,3);
+            for (String notImportant : Scanner.filters) {
+                if (subString.equals(notImportant)) {
+                    return false;
                 }
             }
+            return true;
         }
         return false;
     }
