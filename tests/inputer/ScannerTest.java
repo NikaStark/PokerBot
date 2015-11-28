@@ -55,14 +55,14 @@ public class ScannerTest {
     @Test
     public void testSearchMaxTablePlayers() throws Exception {
         final Scanner scanner = new Scanner();
-        final int expectedResult = 6;
+        final int expectedAnswer = 6;
         int actualResult = -1;
         try (RandomAccessFile randomAccessFile = new RandomAccessFile(tempFile, "r")) {
             actualResult = scanner.searchMaxTablePlayers(randomAccessFile);
         } catch (IOException exc) {
             System.out.println("I/O Error: " + exc);
         }
-        assertEquals(expectedResult, actualResult);
+        assertEquals(expectedAnswer, actualResult);
     }
 
     @Test
@@ -70,8 +70,8 @@ public class ScannerTest {
         final Game game = new Game();
         final Scanner scanner = new Scanner();
         final String tempString = "Game #142837817463 005D0A28";
-        final boolean actualResult = scanner.isTableNew(tempString, game);
-        assertTrue(actualResult);
+        final boolean actualAnswer = scanner.isTableNew(tempString, game);
+        assertTrue(actualAnswer);
     }
 
     @Test
@@ -81,8 +81,8 @@ public class ScannerTest {
         final Table table = new Table("321DF898", 6);
         game.addTables(table);
         final String tempString = "Game #142837817463 005D0A28";
-        final boolean actualResult = scanner.isTableNew(tempString, game);
-        assertTrue(actualResult);
+        final boolean actualAnswer = scanner.isTableNew(tempString, game);
+        assertTrue(actualAnswer);
     }
 
     @Test
@@ -100,39 +100,39 @@ public class ScannerTest {
     public void testIsStartOfDistributionWhenStart() throws Exception {
         final Scanner scanner = new Scanner();
         final String inputTempString = "Game #142837817463 005D0A28";
-        final boolean expectedAnswer = scanner.isStartOfDistribution(inputTempString);
-        assertTrue(expectedAnswer);
+        final boolean actualAnswer = scanner.isStartOfDistribution(inputTempString);
+        assertTrue(actualAnswer);
     }
 
     @Test
     public void testIsStartOfDistributionWhenNotStart() throws Exception {
         final Scanner scanner = new Scanner();
         final String inputTempString = "tryLock supported";
-        final boolean expectedAnswer = scanner.isStartOfDistribution(inputTempString);
-        assertFalse(expectedAnswer);
+        final boolean actualAnswer = scanner.isStartOfDistribution(inputTempString);
+        assertFalse(actualAnswer);
     }
 
     @Test
     public void testIsImportantWhenTrue() throws Exception {
         final Scanner scanner = new Scanner();
         final String inputTempString = "sit0";
-        final boolean expectedAnswer = scanner.isImportant(inputTempString);
-        assertTrue(expectedAnswer);
+        final boolean actualAnswer = scanner.isImportant(inputTempString);
+        assertTrue(actualAnswer);
     }
 
     @Test
     public void testIsImportantWhenFalse() throws Exception {
         final Scanner scanner = new Scanner();
         final String inputTempString = "Table::AdvActions::config() 0865B768";
-        final boolean expectedAnswer = scanner.isImportant(inputTempString);
-        assertFalse(expectedAnswer);
+        final boolean actualAnswer = scanner.isImportant(inputTempString);
+        assertFalse(actualAnswer);
     }
 
     @Test
      public void testTimeToReadingWhenTrue() throws Exception {
         final Scanner scanner = new Scanner();
-        final boolean expectedAnswer = scanner.timeToReading(tempFile);
-        assertTrue(expectedAnswer);
+        final boolean actualAnswer = scanner.timeToReading(tempFile);
+        assertTrue(actualAnswer);
     }
 
     @Test
@@ -144,8 +144,8 @@ public class ScannerTest {
         } catch (IOException exc) {
             System.out.println("I/O Error: " + exc);
         }
-        final boolean expectedAnswer = scanner.timeToReading(tempFile);
-        assertFalse(expectedAnswer);
+        final boolean actualAnswer = scanner.timeToReading(tempFile);
+        assertFalse(actualAnswer);
     }
 
     @Test
