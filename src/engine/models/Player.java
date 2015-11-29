@@ -10,6 +10,10 @@ public class Player {
         this(false, false);
     }
 
+    public Player(boolean isItMySit) {
+        this(true, true);
+    }
+
     public Player(boolean statusIsActive, boolean isItMySit) {
         this.statusIsActive = statusIsActive;
         this.isItMySit = isItMySit;
