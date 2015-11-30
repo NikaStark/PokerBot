@@ -17,17 +17,21 @@ public class Distribution {
 
     private ArrayList<Card> currentDeck;
 
+    private int bank; // TODO maybe this field must have two methods to adding and subtraction
+
+    private final String numberOfDistribution;
+
     public enum StreetPoker {
 
         PreFlop, Flop, Turn, River
 
     }
 
-
-    public Distribution(Card[] cardsOfPlayer) {
+    public Distribution(Card[] cardsOfPlayer, String numberOfDistribution) {
         this.cardsOfPlayer = cardsOfPlayer;
         this.currentDeck = new ArrayList<>(Arrays.asList(Game.DECK_OF_CARDS));
         removeKnownCardsFromDeck(currentStreetPoker());
+        this.numberOfDistribution = numberOfDistribution;
     }
 
     public Card[] getCardsOfPlayer() {
@@ -48,6 +52,12 @@ public class Distribution {
 
     public ArrayList<Card> getCurrentDeck() {
         return currentDeck;
+    }
+
+    public int getBank() { return bank; }
+
+    public String getNumberOfDistribution() {
+        return numberOfDistribution;
     }
 
     public void setFlopCards(final Card[] flopCards) throws ReassigningFieldException {
@@ -72,6 +82,10 @@ public class Distribution {
         }
         this.riverCard = riverCard;
         removeKnownCardsFromDeck(currentStreetPoker());
+    }
+
+    public void setBank(final int bank) {
+        this.bank = bank;
     }
 
     public void removeKnownCardsFromDeck(StreetPoker streetPoker) {
