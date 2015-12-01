@@ -66,14 +66,18 @@ public class Game {
         COMBINATIONS = Collections.unmodifiableMap(tempMap);
     }
 
-    private ArrayList<Table> tables = new ArrayList<>(START_AMOUNT_TABLES);
+    public static final ArrayList<Table> tables = new ArrayList<>(START_AMOUNT_TABLES); // TODO Maybe do this variable public and destroyed static methods which are down
 
-    public ArrayList<Table> getTables() {
-        return tables;
-    }
-
-    public void addTables(final Table table) {
-        tables.add(table);
-    }
+//    public static ArrayList<Table> getTables() {
+//        return tables;
+//    }
+//
+//    public static void addTable(final Table table) {
+//        tables.add(table);
+//    }
+//
+//    public static void removeTable(final Table table) {
+//        tables.remove(table);
+//    }
 
 }
