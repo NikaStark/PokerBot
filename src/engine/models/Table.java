@@ -62,4 +62,20 @@ public class Table {
         this.currentDistribution = currentDistribution;
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (this.getClass() == object.getClass()) {
+            Table table = (Table) object;
+            if (this.hexKey.equals(table.hexKey) &&
+                    this.maxTablePlayers == table.maxTablePlayers &&
+                    this.bigBlind == table.bigBlind) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
