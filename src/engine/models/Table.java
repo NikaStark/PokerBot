@@ -8,6 +8,8 @@ public class Table {
 
     private final int maxTablePlayers;
 
+    private final int bigBlind;
+
     private final Player[] players;
 
     private int dealerPos;
@@ -16,14 +18,20 @@ public class Table {
 
     private Calculator calculator;
 
-    public Table(String hexKey, int maxTablePlayers) {
+    public Table(String hexKey, int maxTablePlayers, int bigBlind) {
         this.hexKey = hexKey;
         this.maxTablePlayers = maxTablePlayers;
+        this.bigBlind = bigBlind;
         this.players = new Player[maxTablePlayers];
+        this.calculator = new Calculator();
     }
 
     public String getHexKey() {
         return hexKey;
+    }
+
+    public int getBigBlind() {
+        return bigBlind;
     }
 
     public int getMaxTablePlayers() {
@@ -52,10 +60,6 @@ public class Table {
 
     public void setCurrentDistribution(Distribution currentDistribution) {
         this.currentDistribution = currentDistribution;
-    }
-
-    public void setCalculator(Calculator calculator) {
-        this.calculator = calculator;
     }
 
 }
