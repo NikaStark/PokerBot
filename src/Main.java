@@ -1,9 +1,10 @@
 //Created by NikaStark on 28.07.2015.
 
-import engine.models.Game;
 import inputer.Scanner;
+import inputer.Translator;
 
 import java.io.File;
+import java.util.List;
 
 public class Main {
 
@@ -11,10 +12,10 @@ public class Main {
 
         final String pathInputOrigin = "C:\\Users\\Alex\\AppData\\Local\\PokerStars\\PokerStars.log.0";
         final File fileInput = new File(pathInputOrigin);
-        Game game = new Game();
         Scanner scanner = new Scanner();
-        scanner.scanner(fileInput, game);
-
+        List<String> tempStorage = scanner.scanner(fileInput);
+        Translator translator = new Translator();
+        translator.analizer(tempStorage);
     }
 
 
