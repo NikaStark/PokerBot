@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -56,6 +57,7 @@ public class Scanner {
         } catch (IOException exc) {
             System.out.println("I/O Error: " + exc);
         }
+        Collections.reverse(tempStorage);
         return tempStorage;
     }
 

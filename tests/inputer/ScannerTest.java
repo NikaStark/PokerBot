@@ -98,9 +98,7 @@ public class ScannerTest {
     public void testScanner() throws Exception {
         final Scanner scanner = new Scanner();
         final String[] expectedAnswer = new String[input.length - 1];
-        for (int i = 0; i < expectedAnswer.length; i++) {
-            expectedAnswer[i] = input[input.length - i - 1];
-        }
+        System.arraycopy(input, 1, expectedAnswer, 0, expectedAnswer.length);
         final List<String> tempList = scanner.scanner(tempFile);
         final String[] actualAnswer = tempList.toArray(new String[tempList.size()]);
         assertArrayEquals(expectedAnswer,actualAnswer);
@@ -110,9 +108,7 @@ public class ScannerTest {
     public void testReadingLogs() throws Exception {
         final Scanner scanner = new Scanner();
         final String[] expectedAnswer = new String[input.length - 1];
-        for (int i = 0; i < expectedAnswer.length; i++) {
-            expectedAnswer[i] = input[input.length - i - 1];
-        }
+        System.arraycopy(input, 1, expectedAnswer, 0, expectedAnswer.length);
         String[] actualAnswer;
         try (RandomAccessFile randomAccessFile = new RandomAccessFile(tempFile, "r")) {
             List<String> tempList = scanner.readingLogs(randomAccessFile);
