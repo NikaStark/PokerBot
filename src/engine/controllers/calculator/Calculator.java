@@ -2,7 +2,6 @@ package engine.controllers.calculator;
 
 import engine.models.Card;
 import engine.models.Distribution;
-import engine.models.Enums.Combinations;
 import engine.models.Game;
 
 import java.util.ArrayList;
@@ -169,7 +168,7 @@ public class Calculator {
 
 
     public int[] getTableChances(Distribution currentDistribution) { // This method is not testing at this version
-        int[] results = new int[Combinations.values().length];
+        int[] results = new int[Game.COMBINATIONS.values().size()];
         Distribution.StreetPoker currentStreetPoker = currentDistribution.currentStreetPoker();
 //        long t1=System.nanoTime();
         ArrayList<Card[]> possibleCards = smartSample(currentDistribution.getCurrentDeck(),
