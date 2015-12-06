@@ -9,10 +9,9 @@ import java.util.function.Predicate;
 
 public class Translator {
 
-    public void analizer(List<String> tempStorage) {
-        if (whatStreetNow(tempStorage) != Distribution.StreetPoker.PreFlop) {
-            tempStorage = destroyUnnecessaryInfo(tempStorage);
-        }
+    public void translator(List<String> tempStorage) {
+        tempStorage = whatStreetNow(tempStorage) == Distribution.StreetPoker.PreFlop ?
+        destroyReiterateInfo(tempStorage) : destroyUnnecessaryInfo(tempStorage);
 
     }
 
@@ -31,6 +30,24 @@ public class Translator {
             }
         }
         return null; // Bad practice, maybe do a throw exception
+    }
+
+    public List<String> destroyReiterateInfo(List<String> tempStorage) {
+        for (int i = 0; i < tempStorage.size(); i++) {
+            if (tempStorage.get(i).substring(0, 4).equals(":::")) {
+                if (tempStorage.get(i).length() < 7) {
+                    tempStorage.remove(i);
+                } else {
+                    int position = tempStorage.get(i).lastIndexOf('(');
+                    if (tempStorage.get(i).substring(position, position + 3).equals("1")) {
+                        tempStorage.remove(i);
+                        break;
+                    }
+                    tempStorage.remove(i);
+                }
+            }
+        }
+        return tempStorage;
     }
 
     public List<String> destroyUnnecessaryInfo(List<String> tempStorage) {

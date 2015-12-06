@@ -15,7 +15,7 @@ public class Main {
         Scanner scanner = new Scanner();
         List<String> tempStorage = scanner.scanner(fileInput);
         Translator translator = new Translator();
-        translator.analizer(tempStorage);
+        translator.translator(tempStorage);
     }
 
 
