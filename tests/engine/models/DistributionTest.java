@@ -49,40 +49,31 @@ public class DistributionTest {
         assertEquals(inputRiverCards, actualCards);
     }
 
-    @Test
+    @Test(expected = ReassigningFieldException.class)
     public void testSetFlopCardsWhenAlreadyAssigned() throws Exception {
         final Card[] inputPlayersCards = new Card[]{new Card(10, Suits.Diamonds), new Card(10, Suits.Spades)};
         final Distribution distribution = new Distribution(inputPlayersCards, null);
         final Card[] inputFlopCards = new Card[]{new Card(3, Suits.Diamonds), new Card(4, Suits.Diamonds), new Card(5, Suits.Diamonds)};
         distribution.setFlopCards(inputFlopCards);
-        try {
-            distribution.setFlopCards(inputFlopCards);
-            fail();
-        } catch (final ReassigningFieldException e) {}
+        distribution.setFlopCards(inputFlopCards);
     }
 
-    @Test
+    @Test(expected = ReassigningFieldException.class)
     public void testSetTurnCardAlreadyAssigned() throws Exception {
         final Card[] inputPlayersCards = new Card[]{new Card(10, Suits.Diamonds), new Card(10, Suits.Spades)};
         final Distribution distribution = new Distribution(inputPlayersCards, null);
         final Card inputTurnCards = new Card(7, Suits.Clubs);
         distribution.setTurnCard(inputTurnCards);
-        try {
-            distribution.setTurnCard(inputTurnCards);
-            fail();
-        } catch (final ReassigningFieldException e) {}
+        distribution.setTurnCard(inputTurnCards);
     }
 
-    @Test
+    @Test(expected = ReassigningFieldException.class)
     public void testSetRiverCardAlreadyAssigned() throws Exception {
         final Card[] inputPlayersCards = new Card[]{new Card(10, Suits.Diamonds), new Card(10, Suits.Spades)};
         final Distribution distribution = new Distribution(inputPlayersCards, null);
         final Card inputRiverCards = new Card(9, Suits.Hertz);
         distribution.setRiverCard(inputRiverCards);
-        try {
-            distribution.setRiverCard(inputRiverCards);
-            fail();
-        } catch (final ReassigningFieldException e) {}
+        distribution.setRiverCard(inputRiverCards);
     }
 
     @Test
@@ -104,11 +95,10 @@ public class DistributionTest {
     @Test
     public void testCurrentKnownCards() throws Exception {
         final Card[] inputPlayersCards = new Card[]{new Card(4, Suits.Hertz), new Card(6, Suits.Spades)};
-        final Card[] inputFlopCards = new Card[]{new Card(7, Suits.Clubs), new Card(2, Suits.Diamonds), new Card(9, Suits.Hertz)};
-        final Card[] expectedAnswer = inputFlopCards;
+        final Card[] expectedAnswer = new Card[]{new Card(7, Suits.Clubs), new Card(2, Suits.Diamonds), new Card(9, Suits.Hertz)};
         final Distribution distribution = new Distribution(inputPlayersCards, null);
         final Distribution.StreetPoker inputStreetPoker = Distribution.StreetPoker.Flop;
-        distribution.setFlopCards(inputFlopCards);
+        distribution.setFlopCards(expectedAnswer);
         final Card[] actualAnswer = distribution.currentKnownCards(inputStreetPoker);
         assertArrayEquals(expectedAnswer, actualAnswer);
     }

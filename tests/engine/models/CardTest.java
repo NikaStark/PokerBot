@@ -1,6 +1,5 @@
 package engine.models;
 
-import engine.models.Card;
 import engine.models.Enums.HighCard;
 import engine.models.Enums.Suits;
 import org.junit.Test;
