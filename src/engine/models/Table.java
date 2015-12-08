@@ -1,6 +1,7 @@
 package engine.models;
 
 import engine.controllers.calculator.Calculator;
+import engine.models.exceptions.NotFoundDistributionException;
 
 public class Table {
 
@@ -46,7 +47,10 @@ public class Table {
         return players;
     }
 
-    public Distribution getCurrentDistribution() {
+    public Distribution getCurrentDistribution() throws NotFoundDistributionException {
+        if (this.currentDistribution == null) {
+            throw new NotFoundDistributionException();
+        }
         return currentDistribution;
     }
 
