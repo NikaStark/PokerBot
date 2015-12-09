@@ -3,9 +3,10 @@ package inputer;
 import engine.models.Distribution;
 import engine.models.Game;
 import engine.models.Table;
+import engine.models.exceptions.AbstractPokerBotException;
+import engine.models.exceptions.NotFoundTableException;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 public class Translator {
 
@@ -16,7 +17,7 @@ public class Translator {
     }
 
     public Distribution.StreetPoker whatStreetNow(List<String> tempStorage) {
-        for (int i = tempStorage.size(); i <= 0; i--) {
+        for (int i = tempStorage.size() - 1; i >= 0; i--) {
             String currentLine = tempStorage.get(i);
             if (currentLine.substring(18, currentLine.indexOf(' ')).equals("updateMyCard()")) {
                 return Distribution.StreetPoker.PreFlop;
@@ -29,21 +30,21 @@ public class Translator {
                 }
             }
         }
-        return null; // Bad practice, maybe do a throw exception
+        return null; //TODO Bad practice, maybe do a throw exception
     }
 
     public List<String> destroyReiterateInfo(List<String> tempStorage) {
         for (int i = 0; i < tempStorage.size(); i++) {
-            if (tempStorage.get(i).substring(0, 4).equals(":::")) {
-                if (tempStorage.get(i).length() < 7) {
-                    tempStorage.remove(i);
+            if (tempStorage.get(i).substring(0, 3).equals(":::")) {
+                if (tempStorage.get(i).length() <= 7) {
+                    tempStorage.remove(i--);
                 } else {
                     int position = tempStorage.get(i).lastIndexOf('(');
-                    if (tempStorage.get(i).substring(position, position + 3).equals("1")) {
+                    if (tempStorage.get(i).substring(position, position + 3).equals("(1)")) {
                         tempStorage.remove(i);
                         break;
                     }
-                    tempStorage.remove(i);
+                    tempStorage.remove(i--);
                 }
             }
         }
@@ -51,19 +52,13 @@ public class Translator {
     }
 
     public List<String> destroyUnnecessaryInfo(List<String> tempStorage) {
-        final int pointer = searchPointer(tempStorage);
-        tempStorage.removeIf(new Predicate<String>() { // It can be replaced with lambda
-            @Override
-            public boolean test(String s) {
-                return tempStorage.indexOf(s) < pointer;
-            }
-        });
+        tempStorage.removeAll(tempStorage.subList(0, searchPointer(tempStorage) + 1));
         return tempStorage;
     }
 
     public int searchPointer(List<String> tempStorage) {
         int temp = -1;
-        for (int i = tempStorage.size(); i <= 0; i--) {
+        for (int i = tempStorage.size() - 1; i >= 0; i--) {
             String subString = tempStorage.get(i).substring(1, 4);
             if (subString.equals("'*'") || subString.equals("'C'") || subString.equals("'E'")) {
                 if (tempStorage.size() - i > 2) {
@@ -71,25 +66,26 @@ public class Translator {
                 }
             }
         }
-        return temp; // Bad practice, maybe do a throw exception
+        return temp; //TODO Bad practice, maybe do a throw exception
     }
 
     public boolean isDistributionNew(final String line) {
         String numberOfDistribution = line.substring(6, 18);
         String hexKey = line.substring(19);
-        return !searchTable(hexKey).
-                getCurrentDistribution().
-                getNumberOfDistribution().
-                equals(numberOfDistribution);
+        try {
+            return !searchTable(hexKey).getCurrentDistribution().getNumberOfDistribution().equals(numberOfDistribution);
+        } catch (AbstractPokerBotException exc) {
+            return false;
+        }
     }
 
-    public Table searchTable(final String hexKey) {
+    public Table searchTable(final String hexKey) throws NotFoundTableException {
         for (Table table : Game.tables) {
             if (table.getHexKey().equals(hexKey)) {
                 return table;
             }
         }
-        return null; // Bad practice, maybe do a throw exception
+        throw new NotFoundTableException();
     }
 
 }
