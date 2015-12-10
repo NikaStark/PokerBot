@@ -20,8 +20,11 @@ public class Scanner {
             "-> ",
             "Msg",
             "Com",
+            "[20",
             "Tab",
-            "OnT"
+            "OnT",
+            "  n",
+            "myC"
     };
 
     public List<String> scanner(File fileInput) {
@@ -79,7 +82,7 @@ public class Scanner {
         String tempString;
         int count = -1;
         while ((tempString = randomAccessFile.readLine()) != null) {
-            String subString = tempString.length() >= 3 ? tempString.substring(1, 4) : "";
+            String subString = tempString.length() >= 5 ? tempString.substring(1, 4) : "";
             if (subString.equals("'Q'") || subString.equals("'P'")) {
                 count = Integer.parseInt(tempString.substring(5, 9));
                 break;
