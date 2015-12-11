@@ -2,6 +2,7 @@ package engine.models;
 
 import engine.models.Enums.HighCard;
 import engine.models.Enums.Suits;
+import engine.models.exceptions.IllegalSuitException;
 
 public class Card {
 
@@ -12,6 +13,21 @@ public class Card {
     public Card(final int numericValue, final Suits suit) {
         this.numericValue = numericValue;
         this.suit = suit;
+    }
+
+    public Card(final int numericValue, final char suit)  throws IllegalSuitException {
+        if (suit == 's'){
+            this.suit = Suits.Spades;
+        } else if (suit == 'h'){
+            this.suit = Suits.Hertz;
+        } else if (suit == 'c'){
+            this.suit = Suits.Clubs;
+        } else if (suit == 'd'){
+            this.suit = Suits.Diamonds;
+        } else {
+            throw new IllegalSuitException();
+        }
+        this.numericValue = numericValue;
     }
 
     public Card(final HighCard symbolicValue, final Suits suit) {
