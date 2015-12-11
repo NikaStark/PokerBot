@@ -1,6 +1,7 @@
 package engine.models;
 
 import engine.controllers.calculator.Calculator;
+import engine.models.exceptions.AbsentInfinitePlayerException;
 import engine.models.exceptions.NotFoundDistributionException;
 
 public class Table {
@@ -45,6 +46,15 @@ public class Table {
 
     public Player[] getPlayers() {
         return players;
+    }
+
+    public int getIndexFirstPlayerNotNull() throws AbsentInfinitePlayerException {
+        for (int i = 0; i < getPlayers().length; i++) {
+            if (getPlayers()[i] == null) {
+                return i;
+            }
+        }
+        throw new AbsentInfinitePlayerException();
     }
 
     public Distribution getCurrentDistribution() throws NotFoundDistributionException {
