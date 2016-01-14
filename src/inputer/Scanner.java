@@ -2,6 +2,7 @@ package inputer;
 
 import engine.models.Game;
 import engine.models.Table;
+import outer.Outer;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -51,7 +52,7 @@ public class Scanner {
         tempStorage.add(tempString);
         if (isTableNew(tempString)) {
             Game.tables.add(new Table(tempString.substring(19), searchMaxTablePlayers(randomAccessFile),
-                    searchBigBlind(randomAccessFile)));
+                    searchBigBlind(randomAccessFile), Outer.getForegroundWindow()));
         }
         try (PrintStream outputFile = new PrintStream(new FileOutputStream(pathOutput))) {
             for (int i = tempStorage.size() - 1; i >= 0; i--) {
