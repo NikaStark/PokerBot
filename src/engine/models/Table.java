@@ -1,5 +1,6 @@
 package engine.models;
 
+import com.sun.jna.platform.win32.WinDef;
 import engine.controllers.calculator.Calculator;
 import engine.models.exceptions.AbsentInfinitePlayerException;
 import engine.models.exceptions.NotFoundDistributionException;
@@ -20,10 +21,13 @@ public class Table {
 
     private Calculator calculator;
 
-    public Table(String hexKey, int maxTablePlayers, int bigBlind) {
+    private WinDef.HWND hwnd;
+
+    public Table(String hexKey, int maxTablePlayers, int bigBlind, WinDef.HWND hwnd) {
         this.hexKey = hexKey;
         this.maxTablePlayers = maxTablePlayers;
         this.bigBlind = bigBlind;
+        this.hwnd = hwnd;
         this.players = new Player[maxTablePlayers];
         this.calculator = new Calculator();
     }
@@ -32,16 +36,12 @@ public class Table {
         return hexKey;
     }
 
-    public int getBigBlind() {
-        return bigBlind;
-    }
-
     public int getMaxTablePlayers() {
         return maxTablePlayers;
     }
 
-    public int getDealerPos() {
-        return dealerPos;
+    public int getBigBlind() {
+        return bigBlind;
     }
 
     public Player[] getPlayers() {
@@ -57,6 +57,10 @@ public class Table {
         throw new AbsentInfinitePlayerException();
     }
 
+    public int getDealerPos() {
+        return dealerPos;
+    }
+
     public Distribution getCurrentDistribution() throws NotFoundDistributionException {
         if (this.currentDistribution == null) {
             throw new NotFoundDistributionException();
@@ -66,6 +70,10 @@ public class Table {
 
     public Calculator getCalculator() {
         return calculator;
+    }
+
+    public WinDef.HWND getHwnd() {
+        return hwnd;
     }
 
     public void setDealerPos(int dealerPos) {
