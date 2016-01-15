@@ -25,7 +25,7 @@ public class TranslatorTest {
         final Card[] playersCards = new Card[]{new Card(10, Suits.Hertz), new Card(7, Suits.Spades)};
         final Distribution distribution = new Distribution(playersCards, numberDistribution);
         final String hexKey = "0006098E";
-        final Table table = new Table(hexKey, 6, 1000);
+        final Table table = new Table(hexKey, 6, 1000, null);
         table.setCurrentDistribution(distribution);
         Game.tables.add(table);
     }
@@ -155,7 +155,7 @@ public class TranslatorTest {
         final String number = "Game #143284520901 00400A2A";
         final Card[] inputPlayersCards = new Card[]{new Card(7, Suits.Clubs), new Card(10, Suits.Diamonds)};
         final Distribution distribution = new Distribution(inputPlayersCards, number);
-        final Table table = new Table("00400A2A", 1, 1);
+        final Table table = new Table("00400A2A", 1, 1, null);
         table.setCurrentDistribution(distribution);
         Game.tables.add(table);
         final boolean actualAnswer = translator.isDistributionNew(number);
@@ -166,7 +166,7 @@ public class TranslatorTest {
     public void testIsDistributionNewWhenFalse() throws Exception {
         final Translator translator = new Translator();
         final String number = "Game #143284520901 00400A2A";
-        final Table table = new Table("00400A2A", 1, 1);
+        final Table table = new Table("00400A2A", 1, 1, null);
         Game.tables.add(table);
         final boolean actualAnswer = translator.isDistributionNew(number);
         assertFalse(actualAnswer);
@@ -176,7 +176,7 @@ public class TranslatorTest {
      public void testSearchTableExisting() throws Exception {
         final Translator translator = new Translator();
         final String hexKey = "00400A2A";
-        final Table expectedAnswer = new Table(hexKey, 1, 1);
+        final Table expectedAnswer = new Table(hexKey, 1, 1, null);
         Game.tables.add(expectedAnswer);
         final Table actualAnswer = translator.searchTable(hexKey);
         assertEquals(expectedAnswer, actualAnswer);
