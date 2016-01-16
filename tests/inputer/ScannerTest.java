@@ -24,7 +24,6 @@ public class ScannerTest {
     public static String[] input = new String[] {
             "maxTablePlayers = 6",
             "Game #144453195279 0006098E",
-            "[2015/11/27 14:54:44]",
             " 'Q' 1000",
             " '_' 0",
             " ' ' 0",
@@ -38,7 +37,6 @@ public class ScannerTest {
             "  sit4",
             "  sit5",
             "  dealerPos=0",
-            "myCards.changed=1",
             ":::TableViewImpl::updateMyCard() 10h (0) [6098E]",
             ":::TableViewImpl::updateMyCard() 7s (1) [6098E]",
             "  sit0",
@@ -48,7 +46,6 @@ public class ScannerTest {
             "  sit5",
             ":::TableViewImpl::updateMyCard() 10h (0) [6098E]",
             ":::TableViewImpl::updateMyCard() 7s (1) [6098E]",
-            "[2015/11/27 14:54:45]",
             "box[ 0 ] 0",
             " act 'c' -1",
             " act 'F' -1",
@@ -57,7 +54,6 @@ public class ScannerTest {
             "box[ 3 ] 0",
             " act 'c' -1",
             " act 'C' -1",
-            "[2015/11/27 14:54:46]",
             " 'F' 0",
             " 'c' 0",
             " '*' 'E' 2000, 40000, 1000, 100"
@@ -144,7 +140,7 @@ public class ScannerTest {
     @Test
     public void testIsTableNewWhenTableNew() throws Exception {
         final Scanner scanner = new Scanner();
-        final Table table = new Table("321DF898", 10, 6);
+        final Table table = new Table("321DF898", 10, 6, null);
         Game.tables.add(table);
         final String tempString = "Game #142837817463 005D0A29";
         final boolean actualAnswer = scanner.isTableNew(tempString);
@@ -154,7 +150,7 @@ public class ScannerTest {
     @Test
     public void testIsTableNewWhenTableNotNew() throws Exception {
         final Scanner scanner = new Scanner();
-        final Table table = new Table("005D0A28", 10,  6);
+        final Table table = new Table("005D0A28", 10,  6, null);
         Game.tables.add(table);
         final String tempString = "Game #142837817463 005D0A28";
         final boolean actualResult = scanner.isTableNew(tempString);
