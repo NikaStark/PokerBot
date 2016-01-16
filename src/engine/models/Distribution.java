@@ -4,6 +4,7 @@ import engine.models.exceptions.ReassigningFieldException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumMap;
 
 public class Distribution {
 
@@ -17,13 +18,21 @@ public class Distribution {
 
     private ArrayList<Card> currentDeck;
 
-    private int bank; // TODO maybe this field must have two methods to adding and subtraction
+    private int rate;
 
     private final String numberOfDistribution;
+
+    private EnumMap<PossibleSteps, Integer[]> currentPossibleSteps;
 
     public enum StreetPoker {
 
         PreFlop, Flop, Turn, River
+
+    }
+
+    public enum PossibleSteps {
+
+        Fold, Check, Call, Raise
 
     }
 
@@ -32,6 +41,8 @@ public class Distribution {
         this.currentDeck = new ArrayList<>(Arrays.asList(Game.DECK_OF_CARDS));
         removeKnownCardsFromDeck(currentStreetPoker());
         this.numberOfDistribution = numberOfDistribution;
+        this.rate = 0;
+        this.currentPossibleSteps = new EnumMap<>(PossibleSteps.class);
     }
 
     public Card[] getCardsOfPlayer() {
@@ -54,10 +65,16 @@ public class Distribution {
         return currentDeck;
     }
 
-    public int getBank() { return bank; }
+    public int getRate() {
+        return rate;
+    }
 
     public String getNumberOfDistribution() {
         return numberOfDistribution;
+    }
+
+    public EnumMap<PossibleSteps, Integer[]> getCurrentPossibleSteps() {
+        return currentPossibleSteps;
     }
 
     public void setFlopCards(final Card[] flopCards) throws ReassigningFieldException {
@@ -65,6 +82,7 @@ public class Distribution {
             throw new ReassigningFieldException();
         }
         this.flopCards = flopCards;
+        this.rate = 0;
         removeKnownCardsFromDeck(currentStreetPoker());
     }
 
@@ -73,6 +91,7 @@ public class Distribution {
             throw new ReassigningFieldException();
         }
         this.turnCard = turnCard;
+        this.rate = 0;
         removeKnownCardsFromDeck(currentStreetPoker());
     }
 
@@ -81,11 +100,12 @@ public class Distribution {
             throw new ReassigningFieldException();
         }
         this.riverCard = riverCard;
+        this.rate = 0;
         removeKnownCardsFromDeck(currentStreetPoker());
     }
 
-    public void setBank(final int bank) {
-        this.bank = bank;
+    public void setRate(final int rate) {
+        this.rate = rate;
     }
 
     public void removeKnownCardsFromDeck(StreetPoker streetPoker) {
