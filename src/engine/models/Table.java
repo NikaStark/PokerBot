@@ -17,6 +17,8 @@ public class Table {
 
     private int dealerPos;
 
+    private int myStack;
+
     private Distribution currentDistribution;
 
     private Calculator calculator;
@@ -61,6 +63,10 @@ public class Table {
         return dealerPos;
     }
 
+    public int getMyStack() {
+        return myStack;
+    }
+
     public Distribution getCurrentDistribution() throws NotFoundDistributionException {
         if (this.currentDistribution == null) {
             throw new NotFoundDistributionException();
@@ -78,6 +84,12 @@ public class Table {
 
     public void setDealerPos(int dealerPos) {
         this.dealerPos = dealerPos;
+    }
+
+    public void rateMyStack() {
+       this.myStack = this.currentDistribution.getCurrentPossibleSteps().containsKey(Distribution.PossibleSteps.Raise) ?
+               this.currentDistribution.getCurrentPossibleSteps().get(Distribution.PossibleSteps.Raise)[2] :
+               this.currentDistribution.getCurrentPossibleSteps().get(Distribution.PossibleSteps.Call)[0];
     }
 
     public void setCurrentDistribution(Distribution currentDistribution) {
