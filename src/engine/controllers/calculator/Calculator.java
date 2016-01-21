@@ -82,7 +82,7 @@ public class Calculator {
 //                continue;
 //            }
 //            for (int i = 0; i < newCurrentDeckOfCards.size(); i++) {
-//                if (currentKnownCard.getNumericValue() == newCurrentDeckOfCards.get(i).getNumericValue() &&
+//                if (currentKnownCard.getDignity() == newCurrentDeckOfCards.get(i).getDignity() &&
 //                        currentKnownCard.getSuit() == newCurrentDeckOfCards.get(i).getSuit()) {
 //                    newCurrentDeckOfCards.remove(i);
 //                }
@@ -375,7 +375,7 @@ public class Calculator {
     public int[] getAllSortedNumericValues(Card[] possibleCombination) {
         int[] numericValues = new int[possibleCombination.length];
         for (int i = 0; i < possibleCombination.length; i++) {
-            numericValues[i] = possibleCombination[i].getNumericValue();
+            numericValues[i] = possibleCombination[i].getDignity();
         }
         Arrays.sort(numericValues);
         return numericValues;
