@@ -22,7 +22,7 @@ public class TranslatorTest {
     @Before
     public void setUp() throws Exception {
         final String numberDistribution = "144453195279";
-        final Card[] playersCards = new Card[]{new Card(10, Suits.Hertz), new Card(7, Suits.Spades)};
+        final Card[] playersCards = new Card[]{new Card(10, Suits.HERTZ), new Card(7, Suits.SPADES)};
         final Distribution distribution = new Distribution(playersCards, numberDistribution);
         final String hexKey = "0006098E";
         final Table table = new Table(hexKey, 6, 1000, null);
@@ -53,7 +53,7 @@ public class TranslatorTest {
                 ":::TableViewImpl::updateMyCard() 10h (0) [6098E]",
                 ":::TableViewImpl::updateMyCard() 7s (1) [6098E]"
         }));
-        final Distribution.StreetPoker expectedAnswer = Distribution.StreetPoker.PreFlop;
+        final Distribution.StreetPoker expectedAnswer = Distribution.StreetPoker.PRE_FLOP;
         final Distribution.StreetPoker actualAnswer = translator.whatStreetNow(tempStorage);
         assertEquals(expectedAnswer, actualAnswer);
     }
@@ -153,7 +153,7 @@ public class TranslatorTest {
     public void testIsDistributionNewWhenTrue() throws Exception {
         final Translator translator = new Translator();
         final String number = "Game #143284520901 00400A2A";
-        final Card[] inputPlayersCards = new Card[]{new Card(7, Suits.Clubs), new Card(10, Suits.Diamonds)};
+        final Card[] inputPlayersCards = new Card[]{new Card(7, Suits.CLUBS), new Card(10, Suits.DIAMONDS)};
         final Distribution distribution = new Distribution(inputPlayersCards, number);
         final Table table = new Table("00400A2A", 1, 1, null);
         table.setCurrentDistribution(distribution);
