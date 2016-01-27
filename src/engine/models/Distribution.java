@@ -8,33 +8,29 @@ import java.util.EnumMap;
 
 public class Distribution {
 
-    private final Card[] cardsOfPlayer;
-
-    private Card[] flopCards;
-
-    private Card turnCard;
-
-    private Card riverCard;
-
-    private ArrayList<Card> currentDeck;
-
-    private int rate;
-
-    private final String numberOfDistribution;
-
-    private EnumMap<PossibleSteps, Integer[]> currentPossibleSteps;
-
     public enum StreetPoker {
 
-        PreFlop, Flop, Turn, River
+        PRE_FLOP, FLOP, TURN, RIVER
 
     }
 
     public enum PossibleSteps {
 
-        Fold, Check, Call, Raise
+        FOLD, CHECK, CALL, RAISE
 
     }
+
+    private final String numberOfDistribution;
+    private int dealerPos;
+    private final Card[] cardsOfPlayer;
+    private Card[] flopCards;
+    private Card turnCard;
+    private Card riverCard;
+    private ArrayList<Card> currentDeck;
+    private int myStack;
+    private int bank;
+    private int rate;
+    private EnumMap<PossibleSteps, Integer[]> currentPossibleSteps;
 
     public Distribution(Card[] cardsOfPlayer, String numberOfDistribution) {
         this.cardsOfPlayer = cardsOfPlayer;
@@ -43,6 +39,14 @@ public class Distribution {
         this.numberOfDistribution = numberOfDistribution;
         this.rate = 0;
         this.currentPossibleSteps = new EnumMap<>(PossibleSteps.class);
+    }
+
+    public String getNumberOfDistribution() {
+        return numberOfDistribution;
+    }
+
+    public int getDealerPos() {
+        return dealerPos;
     }
 
     public Card[] getCardsOfPlayer() {
@@ -65,16 +69,24 @@ public class Distribution {
         return currentDeck;
     }
 
+    public int getMyStack() {
+        return myStack;
+    }
+
+    public int getBank() {
+        return bank;
+    }
+
     public int getRate() {
         return rate;
     }
 
-    public String getNumberOfDistribution() {
-        return numberOfDistribution;
-    }
-
     public EnumMap<PossibleSteps, Integer[]> getCurrentPossibleSteps() {
         return currentPossibleSteps;
+    }
+
+    public void setDealerPos(int dealerPos) {
+        this.dealerPos = dealerPos;
     }
 
     public void setFlopCards(final Card[] flopCards) throws ReassigningFieldException {
@@ -104,11 +116,70 @@ public class Distribution {
         removeKnownCardsFromDeck(currentStreetPoker());
     }
 
+    public void setBank(int bank) {
+        this.bank = bank;
+    }
+
     public void setRate(final int rate) {
         this.rate = rate;
     }
 
-    public void removeKnownCardsFromDeck(StreetPoker streetPoker) {
+    public void rateMyStack() {
+        this.myStack = this.currentPossibleSteps.containsKey(Distribution.PossibleSteps.RAISE) ?
+                this.currentPossibleSteps.get(Distribution.PossibleSteps.RAISE)[2] :
+                this.currentPossibleSteps.get(Distribution.PossibleSteps.CALL)[0];
+    }
+
+    public Card[] allCurrentKnownCards(StreetPoker streetPoker) {
+        Card[] allCurrentKnownCards = new Card[counterKnownCards(streetPoker)];
+        if (streetPoker == StreetPoker.PRE_FLOP) {
+            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
+            return allCurrentKnownCards;
+        } else if (streetPoker == StreetPoker.FLOP) {
+            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
+            System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
+            return allCurrentKnownCards;
+        } else if (streetPoker == StreetPoker.TURN) {
+            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
+            System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
+            allCurrentKnownCards[allCurrentKnownCards.length - 1] = this.turnCard;
+            return allCurrentKnownCards;
+        } else {
+            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
+            System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
+            allCurrentKnownCards[allCurrentKnownCards.length - 2] = this.turnCard;
+            allCurrentKnownCards[allCurrentKnownCards.length - 1] = this.riverCard;
+            return allCurrentKnownCards;
+        }
+    }
+
+    public int counterKnownCards(StreetPoker streetPoker) {
+        if (streetPoker == StreetPoker.PRE_FLOP) {
+            return Game.AMOUNT_CARDS_AT_PLAYER;
+        } else if (streetPoker == StreetPoker.FLOP) {
+            return Game.AMOUNT_CARDS_AT_PLAYER +
+                    Game.AMOUNT_CARDS_AT_FLOP;
+        } else if (streetPoker == StreetPoker.TURN) {
+            return Game.AMOUNT_CARDS_AT_PLAYER +
+                    Game.AMOUNT_CARDS_AT_FLOP +
+                    Game.AMOUNT_CARDS_AT_TURN;
+        }
+        return Game.AMOUNT_CARDS_AT_DISTRIBUTION;
+    }
+
+    public StreetPoker currentStreetPoker() {
+        if (this.flopCards == null && this.cardsOfPlayer != null) {
+           return StreetPoker.PRE_FLOP;
+        } else if (this.turnCard == null && this.flopCards != null) {
+            return StreetPoker.FLOP;
+        } else if (this.riverCard == null && this.turnCard != null) {
+            return StreetPoker.TURN;
+        } else {
+            return StreetPoker.RIVER;
+        }
+    }
+
+    private void removeKnownCardsFromDeck(StreetPoker streetPoker) {
         for (Card knownCard : currentKnownCards(streetPoker)) {
             for (Card notKnownCard : this.currentDeck) {
                 if (knownCard.equals(notKnownCard)) {
@@ -120,65 +191,15 @@ public class Distribution {
         this.currentDeck.trimToSize();
     }
 
-    public Card[] currentKnownCards(StreetPoker streetPoker) {
-        if (streetPoker == StreetPoker.PreFlop) {
+    private Card[] currentKnownCards(StreetPoker streetPoker) {
+        if (streetPoker == StreetPoker.PRE_FLOP) {
             return this.cardsOfPlayer;
-        } else if (streetPoker == StreetPoker.Flop) {
+        } else if (streetPoker == StreetPoker.FLOP) {
             return this.flopCards;
-        } else if (streetPoker == StreetPoker.Turn) {
+        } else if (streetPoker == StreetPoker.TURN) {
             return new Card[]{this.getTurnCard()};
         }
         return new Card[]{this.getRiverCard()};
-    }
-
-    public Card[] allCurrentKnownCards(StreetPoker streetPoker) {
-        Card[] allCurrentKnownCards = new Card[counterKnownCards(streetPoker)];
-        if (streetPoker == StreetPoker.PreFlop) {
-            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
-            return allCurrentKnownCards;
-        } else if (streetPoker == StreetPoker.Flop) {
-            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
-            System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
-            return allCurrentKnownCards;
-        } else if (streetPoker == StreetPoker.Turn) {
-            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
-            System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
-            allCurrentKnownCards[allCurrentKnownCards.length - 1] = this.turnCard;
-            return allCurrentKnownCards;
-        } else {
-            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
-            System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
-            allCurrentKnownCards[allCurrentKnownCards.length - 2] = this.turnCard;
-            allCurrentKnownCards[allCurrentKnownCards.length - 1] = this.riverCard;
-            return allCurrentKnownCards;
-
-        }
-    }
-
-    public int counterKnownCards(StreetPoker streetPoker) {
-        if (streetPoker == StreetPoker.PreFlop) {
-            return Game.AMOUNT_CARDS_AT_PLAYER;
-        } else if (streetPoker == StreetPoker.Flop) {
-            return Game.AMOUNT_CARDS_AT_PLAYER +
-                    Game.AMOUNT_CARDS_AT_FLOP;
-        } else if (streetPoker == StreetPoker.Turn) {
-            return Game.AMOUNT_CARDS_AT_PLAYER +
-                    Game.AMOUNT_CARDS_AT_FLOP +
-                    Game.AMOUNT_CARDS_AT_TURN;
-        }
-        return Game.AMOUNT_CARDS_AT_DISTRIBUTION;
-    }
-
-    public StreetPoker currentStreetPoker() {
-        if (this.flopCards == null && this.cardsOfPlayer != null) {
-           return StreetPoker.PreFlop;
-        } else if (this.turnCard == null && this.flopCards != null) {
-            return StreetPoker.Flop;
-        } else if (this.riverCard == null && this.turnCard != null) {
-            return StreetPoker.Turn;
-        } else {
-            return StreetPoker.River;
-        }
     }
 
 }
