@@ -9,12 +9,12 @@ public class Translator {
 
     public void translator(List<String> tempStorage) {
         tempStorage = !isDistributionNew(tempStorage.get(1)) ?
-                whatStreetNow(tempStorage) == Distribution.StreetPoker.PreFlop ?
+                whatStreetNow(tempStorage) == Distribution.StreetPoker.PRE_FLOP ?
                         destroyReiterateInfo(tempStorage)
                         : destroyUnnecessaryInfo(tempStorage)
                 : destroyReiterateInfo(tempStorage);
 //        if (!isDistributionNew(tempStorage.get(1))) {
-//            tempStorage = whatStreetNow(tempStorage) == Distribution.StreetPoker.PreFlop ?
+//            tempStorage = whatStreetNow(tempStorage) == Distribution.StreetPoker.PRE_FLOP ?
 //                    destroyReiterateInfo(tempStorage) : destroyUnnecessaryInfo(tempStorage);
 //        } else {
 //            tempStorage = destroyReiterateInfo(tempStorage);
@@ -30,13 +30,13 @@ public class Translator {
         for (int i = tempStorage.size() - 1; i >= 0; i--) {
             String currentLine = tempStorage.get(i);
             if (currentLine.substring(18, currentLine.indexOf(' ')).equals("updateMyCard()")) {
-                return Distribution.StreetPoker.PreFlop;
+                return Distribution.StreetPoker.PRE_FLOP;
             } else {
                 int position = currentLine.lastIndexOf('(');
                 switch (currentLine.substring(position, position + 3)) {
-                    case "(2)": return Distribution.StreetPoker.Flop;
-                    case "(3)": return Distribution.StreetPoker.Turn;
-                    case "(4)": return Distribution.StreetPoker.River;
+                    case "(2)": return Distribution.StreetPoker.FLOP;
+                    case "(3)": return Distribution.StreetPoker.TURN;
+                    case "(4)": return Distribution.StreetPoker.RIVER;
                 }
             }
         }
@@ -112,9 +112,9 @@ public class Translator {
                     initializePlayer(tempStorage, currentTable, i);
                     break;
                 case "  dea":
-                    currentTable.setDealerPos(Integer.parseInt(tempStorage.get(i).substring(12, 13)));
+                    currentTable.getCurrentDistribution().setDealerPos(Integer.parseInt(tempStorage.get(i).substring(12, 13)));
                     break;
-                case ":::Ta":
+                case ":::Ta":   // TODO Maybe do creating player and flop cards in a steps(First card - creating array, next - get creating array at last step and put new card...)
                     String line = tempStorage.get(i);
                     int numberOfCard = Integer.parseInt(line.substring(
                             line.lastIndexOf('(') + 1, line.lastIndexOf('(') + 2));
@@ -136,10 +136,32 @@ public class Translator {
                             currentTable.getCurrentDistribution().setRiverCard(searchCard(line));
                         }
                     }
-
+                    break;
+                case " 'F' ":
+                    currentTable.getCurrentDistribution().getCurrentPossibleSteps().
+                            put(Distribution.PossibleSteps.FOLD, new Integer[]{0});
+                    break;
+                case " 'c' ":
+                    currentTable.getCurrentDistribution().getCurrentPossibleSteps().
+                            put(Distribution.PossibleSteps.CHECK, new Integer[]{0});
+                    break;
+                case " 'C' ":
+                    currentTable.getCurrentDistribution().getCurrentPossibleSteps().
+                            put(Distribution.PossibleSteps.CALL,
+                                    new Integer[]{Integer.parseInt(tempStorage.get(i).substring(5).trim())});
+                    break;
+                case " '*' ":
+                    String[] valuesOfCurrentPossibleSteps = tempStorage.get(i).substring(9).trim().split(", ");
+                    currentTable.getCurrentDistribution().getCurrentPossibleSteps().
+                            put(Distribution.PossibleSteps.RAISE, new Integer[]{
+                                            Integer.parseInt(valuesOfCurrentPossibleSteps[0]),
+                                            Integer.parseInt(valuesOfCurrentPossibleSteps[1]),
+                                            Integer.parseInt(valuesOfCurrentPossibleSteps[2]),
+                                            Integer.parseInt(valuesOfCurrentPossibleSteps[3])});
                     break;
             }
         }
+        currentTable.getCurrentDistribution().rateMyStack();
     }
 
     public boolean initializePlayer(List<String> tempStorage, Table currentTable, int i) {
