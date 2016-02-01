@@ -25,18 +25,18 @@ public class Outer {
 
     }
 
-    private static final User32 user32 = User32.INSTANCE;
-    private static final WinDef.RECT DEFAULT_WINDOW = new RectangleAdvanced(0, 0, 1010, 730);
-    private static final WinDef.RECT DEFAULT_CLIENT = new RectangleAdvanced(10, 40, 990, 680);
-    private static final WinDef.RECT DEFAULT_FOLD_BUTTON = new RectangleAdvanced(495, 660, 640, 710);
-    private static final WinDef.RECT DEFAULT_CHECK_BUTTON = new RectangleAdvanced(665, 660, 810, 710);
-    private static final WinDef.RECT DEFAULT_RAISE_BUTTON = new RectangleAdvanced(835, 660, 980, 710);
-    private static final WinDef.RECT DEFAULT_MIN_BUTTON = new RectangleAdvanced(660, 580, 730, 605);
-    private static final WinDef.RECT DEFAULT_3BET_BUTTON = new RectangleAdvanced(745, 580, 815, 605);
-    private static final WinDef.RECT DEFAULT_BANK_BUTTON = new RectangleAdvanced(830, 580, 900, 605);
-    private static final WinDef.RECT DEFAULT_MAX_BUTTON = new RectangleAdvanced(910, 580, 980, 605);
-    private static final WinDef.RECT DEFAULT_NUMBER_COUNTER = new RectangleAdvanced(665, 625, 730, 640);
-    private static final WinDef.RECT DEFAULT_BET_SLIDER = new RectangleAdvanced(800, 625, 960, 635);
+    public static final User32 user32 = User32.INSTANCE;
+    public static final WinDef.RECT DEFAULT_WINDOW = new RectangleAdvanced(0, 0, 1010, 730);
+    public static final WinDef.RECT DEFAULT_CLIENT = new RectangleAdvanced(10, 40, 990, 680);
+    public static final WinDef.RECT DEFAULT_FOLD_BUTTON = new RectangleAdvanced(495, 660, 640, 710);
+    public static final WinDef.RECT DEFAULT_CHECK_BUTTON = new RectangleAdvanced(665, 660, 810, 710);
+    public static final WinDef.RECT DEFAULT_RAISE_BUTTON = new RectangleAdvanced(835, 660, 980, 710);
+    public static final WinDef.RECT DEFAULT_MIN_BUTTON = new RectangleAdvanced(660, 580, 730, 605);
+    public static final WinDef.RECT DEFAULT_3BET_BUTTON = new RectangleAdvanced(745, 580, 815, 605);
+    public static final WinDef.RECT DEFAULT_BANK_BUTTON = new RectangleAdvanced(830, 580, 900, 605);
+    public static final WinDef.RECT DEFAULT_MAX_BUTTON = new RectangleAdvanced(910, 580, 980, 605);
+    public static final WinDef.RECT DEFAULT_NUMBER_COUNTER = new RectangleAdvanced(665, 625, 730, 640);
+    public static final WinDef.RECT DEFAULT_BET_SLIDER = new RectangleAdvanced(800, 625, 960, 635);
 
     public static HWND getForegroundWindow() {
         return user32.GetForegroundWindow();
@@ -57,7 +57,7 @@ public class Outer {
         }
     }
 
-    public int getCurrentBank(HWND hwnd) {
+    public static int getCurrentBank(HWND hwnd) { //TODO Don't forget what bank can be float number, when you play at real money
         try {
             Robot robot = new Robot();
             WinDef.RECT windowRect = new WinDef.RECT();
@@ -77,7 +77,6 @@ public class Outer {
         } catch (AWTException | IOException | UnsupportedFlavorException exc) {
             throw new RuntimeException("Exception - " + exc);
         }
-
     }
 
 }
