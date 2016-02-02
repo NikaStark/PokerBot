@@ -35,14 +35,12 @@ public enum Suits {
 
     @Override
     public String toString() {
-        if (this == SPADES) {
-            return "SPADES";
-        } else if (this == HERTZ) {
-            return "HERTZ";
-        } else if (this == CLUBS) {
-            return "CLUBS";
-        } else {
-            return "DIAMONDS";
+        switch (this) {
+            case SPADES: return "SPADES";
+            case HERTZ: return "HERTZ";
+            case CLUBS: return "CLUBS";
+            case DIAMONDS: return "DIAMONDS";
+            default: throw new RuntimeException();
         }
     }
 
