@@ -2,33 +2,33 @@ package engine.models;
 
 public class Player {
 
-    private boolean statusIsActive;
+    private boolean statusActive;
 
-    private boolean isItMySit;
+    private boolean mySit;
 
     public Player() {
-        this(false, false);
+        this(false);
     }
 
-    public Player(boolean isItMySit) {
-        this(true, true);
+    public Player(boolean statusActive) {
+        this.statusActive = statusActive;
+        this.mySit = false;
     }
 
-    public Player(boolean statusIsActive, boolean isItMySit) {
-        this.statusIsActive = statusIsActive;
-        this.isItMySit = isItMySit;
+    public boolean isStatusActive() {
+        return statusActive;
     }
 
-    public boolean isStatusIsActive() {
-        return statusIsActive;
+    public boolean isMySit() {
+        return mySit;
     }
 
-    public void setStatusIsActive(boolean statusIsActive) {
-        this.statusIsActive = statusIsActive;
+    public void setStatus(boolean isStatusActive) {
+        this.statusActive = isStatusActive;
     }
 
-    public boolean isItMySit() {
-        return isItMySit;
+    public void setMySit(boolean isMySit) {
+        this.mySit = isMySit;
     }
 
 }
