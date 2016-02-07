@@ -2,23 +2,23 @@ package engine.models;
 
 import com.sun.jna.platform.win32.WinDef;
 import engine.controllers.calculator.Calculator;
-import engine.models.exceptions.AbsentInfinitePlayerException;
-import engine.models.exceptions.NotFoundDistributionException;
+import engine.models.exceptions.AbsentNotInitializePlayerException;
 
 public class Table {
 
     private final String hexKey;
     private final int maxTablePlayers;
-    private final int bigBlind;
+    private final int smallBlind;
     private final Player[] players;
     private Distribution currentDistribution;
-    private Calculator calculator;
-    private WinDef.HWND hwnd;
+    private final Calculator calculator;
+    private final WinDef.HWND hwnd;
 
-    public Table(String hexKey, int maxTablePlayers, int bigBlind, WinDef.HWND hwnd) {
+    public Table(String hexKey, int maxTablePlayers, int smallBlind, Distribution currentDistribution, WinDef.HWND hwnd) {
         this.hexKey = hexKey;
         this.maxTablePlayers = maxTablePlayers;
-        this.bigBlind = bigBlind;
+        this.smallBlind = smallBlind;
+        this.currentDistribution = currentDistribution;
         this.hwnd = hwnd;
         this.players = new Player[maxTablePlayers];
         this.calculator = new Calculator();
@@ -32,27 +32,24 @@ public class Table {
         return maxTablePlayers;
     }
 
-    public int getBigBlind() {
-        return bigBlind;
+    public int getSmallBlind() {
+        return smallBlind;
     }
 
     public Player[] getPlayers() {
         return players;
     }
 
-    public int getIndexFirstPlayerNotNull() throws AbsentInfinitePlayerException {
+    public int getIndexFirstPlayerNotNull() throws AbsentNotInitializePlayerException {
         for (int i = 0; i < getPlayers().length; i++) {
             if (getPlayers()[i] == null) {
                 return i;
             }
         }
-        throw new AbsentInfinitePlayerException();
+        throw new AbsentNotInitializePlayerException();
     }
 
-    public Distribution getCurrentDistribution() throws NotFoundDistributionException {
-        if (this.currentDistribution == null) {
-            throw new NotFoundDistributionException();
-        }
+    public Distribution getCurrentDistribution() {
         return currentDistribution;
     }
 
@@ -64,10 +61,6 @@ public class Table {
         return hwnd;
     }
 
-    public void setCurrentDistribution(Distribution currentDistribution) {
-        this.currentDistribution = currentDistribution;
-    }
-
     @Override
     public boolean equals(Object object) {
         if (this == object) {
@@ -77,7 +70,7 @@ public class Table {
             Table table = (Table) object;
             if (this.hexKey.equals(table.hexKey) &&
                     this.maxTablePlayers == table.maxTablePlayers &&
-                    this.bigBlind == table.bigBlind) {
+                    this.smallBlind == table.smallBlind) {
                 return true;
             }
         }
