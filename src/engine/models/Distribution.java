@@ -1,6 +1,8 @@
 package engine.models;
 
+import com.sun.jna.platform.win32.WinDef;
 import engine.models.exceptions.ReassigningFieldException;
+import outer.Outer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,10 +34,10 @@ public class Distribution {
     private int rate;
     private EnumMap<PossibleSteps, Integer[]> currentPossibleSteps;
 
-    public Distribution(Card[] cardsOfPlayer, String numberOfDistribution) {
-        this.cardsOfPlayer = cardsOfPlayer;
+    public Distribution(String numberOfDistribution) {
+        this.cardsOfPlayer = new Card[Game.AMOUNT_CARDS_AT_PLAYER];
+        this.flopCards = new Card[Game.AMOUNT_CARDS_AT_FLOP];
         this.currentDeck = new ArrayList<>(Arrays.asList(Game.DECK_OF_CARDS));
-        removeKnownCardsFromDeck(currentStreetPoker());
         this.numberOfDistribution = numberOfDistribution;
         this.rate = 0;
         this.currentPossibleSteps = new EnumMap<>(PossibleSteps.class);
@@ -89,117 +91,69 @@ public class Distribution {
         this.dealerPos = dealerPos;
     }
 
-    public void setFlopCards(final Card[] flopCards) throws ReassigningFieldException {
-        if (this.flopCards != null) {
-            throw new ReassigningFieldException();
-        }
-        this.flopCards = flopCards;
-        this.rate = 0;
-        removeKnownCardsFromDeck(currentStreetPoker());
-    }
-
-    public void setTurnCard(final Card turnCard) throws ReassigningFieldException{
-        if (this.turnCard != null) {
-            throw new ReassigningFieldException();
-        }
-        this.turnCard = turnCard;
-        this.rate = 0;
-        removeKnownCardsFromDeck(currentStreetPoker());
-    }
-
-    public void setRiverCard(final Card riverCard) throws ReassigningFieldException{
-        if (this.riverCard != null) {
-            throw new ReassigningFieldException();
-        }
-        this.riverCard = riverCard;
-        this.rate = 0;
-        removeKnownCardsFromDeck(currentStreetPoker());
-    }
-
-    public void setBank(int bank) {
-        this.bank = bank;
-    }
-
-    public void setRate(final int rate) {
-        this.rate = rate;
-    }
-
-    public void rateMyStack() {
-        this.myStack = this.currentPossibleSteps.containsKey(Distribution.PossibleSteps.RAISE) ?
-                this.currentPossibleSteps.get(Distribution.PossibleSteps.RAISE)[2] :
-                this.currentPossibleSteps.get(Distribution.PossibleSteps.CALL)[0];
-    }
-
-    public Card[] allCurrentKnownCards(StreetPoker streetPoker) {
-        Card[] allCurrentKnownCards = new Card[counterKnownCards(streetPoker)];
-        if (streetPoker == StreetPoker.PRE_FLOP) {
-            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
-            return allCurrentKnownCards;
-        } else if (streetPoker == StreetPoker.FLOP) {
-            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
-            System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
-            return allCurrentKnownCards;
-        } else if (streetPoker == StreetPoker.TURN) {
-            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
-            System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
-            allCurrentKnownCards[allCurrentKnownCards.length - 1] = this.turnCard;
-            return allCurrentKnownCards;
+    public void addPlayersCard(Card newCard, int index) throws ReassigningFieldException {
+        if (this.cardsOfPlayer[index] == null) {
+            this.cardsOfPlayer[index] = newCard;
+            removeKnownCardFromDeck(newCard);
         } else {
-            System.arraycopy(this.cardsOfPlayer, 0, allCurrentKnownCards, 0, this.cardsOfPlayer.length);
-            System.arraycopy(this.flopCards, 0, allCurrentKnownCards, this.cardsOfPlayer.length, this.flopCards.length);
-            allCurrentKnownCards[allCurrentKnownCards.length - 2] = this.turnCard;
-            allCurrentKnownCards[allCurrentKnownCards.length - 1] = this.riverCard;
-            return allCurrentKnownCards;
+            throw new ReassigningFieldException();
         }
     }
 
-    public int counterKnownCards(StreetPoker streetPoker) {
-        if (streetPoker == StreetPoker.PRE_FLOP) {
-            return Game.AMOUNT_CARDS_AT_PLAYER;
-        } else if (streetPoker == StreetPoker.FLOP) {
-            return Game.AMOUNT_CARDS_AT_PLAYER +
-                    Game.AMOUNT_CARDS_AT_FLOP;
-        } else if (streetPoker == StreetPoker.TURN) {
-            return Game.AMOUNT_CARDS_AT_PLAYER +
-                    Game.AMOUNT_CARDS_AT_FLOP +
-                    Game.AMOUNT_CARDS_AT_TURN;
-        }
-        return Game.AMOUNT_CARDS_AT_DISTRIBUTION;
-    }
-
-    public StreetPoker currentStreetPoker() {
-        if (this.flopCards == null && this.cardsOfPlayer != null) {
-           return StreetPoker.PRE_FLOP;
-        } else if (this.turnCard == null && this.flopCards != null) {
-            return StreetPoker.FLOP;
-        } else if (this.riverCard == null && this.turnCard != null) {
-            return StreetPoker.TURN;
+    public void addFlopCard(Card newCard, int index) throws ReassigningFieldException {
+        if (this.flopCards[index] == null) {
+            this.flopCards[index] = newCard;
+            removeKnownCardFromDeck(newCard);
         } else {
-            return StreetPoker.RIVER;
+            throw new ReassigningFieldException();
         }
     }
 
-    private void removeKnownCardsFromDeck(StreetPoker streetPoker) {
-        for (Card knownCard : currentKnownCards(streetPoker)) {
-            for (Card notKnownCard : this.currentDeck) {
-                if (knownCard.equals(notKnownCard)) {
-                    this.currentDeck.remove(notKnownCard);
-                    break;
-                }
+    public void setTurnCard(final Card turnCard) throws ReassigningFieldException {
+        if (this.turnCard == null) {
+            this.turnCard = turnCard;
+            this.rate = 0;
+            removeKnownCardFromDeck(turnCard);
+        } else {
+            throw new ReassigningFieldException();
+        }
+    }
+
+    public void setRiverCard(final Card riverCard) throws ReassigningFieldException {
+        if (this.riverCard == null) {
+            this.riverCard = riverCard;
+            this.rate = 0;
+            removeKnownCardFromDeck(riverCard);
+        } else {
+            throw new ReassigningFieldException();
+        }
+    }
+
+    public void calculateBank(WinDef.HWND hwnd) {
+        this.bank = Outer.getCurrentBank(hwnd);
+    }
+
+    public void calculateMyStack() {
+        this.myStack = !this.currentPossibleSteps.containsKey(PossibleSteps.RAISE) ?
+                this.currentPossibleSteps.get(PossibleSteps.CALL)[0] :
+                this.currentPossibleSteps.get(PossibleSteps.RAISE).length != 1 ?
+                        this.currentPossibleSteps.get(PossibleSteps.RAISE)[1] :
+                        this.currentPossibleSteps.get(PossibleSteps.RAISE)[0] -
+                                this.currentPossibleSteps.get(PossibleSteps.CALL)[0] * 2 - this.rate ;
+    }
+
+    public void setRate() {
+        // TODO Write implementing when package "DSS" been finish
+    }
+
+    private void removeKnownCardFromDeck(Card knownCard) {
+        for (Card notKnownCard : this.currentDeck) {
+            if (knownCard.equals(notKnownCard)) {
+                this.currentDeck.remove(notKnownCard);
+                break;
             }
         }
         this.currentDeck.trimToSize();
-    }
-
-    private Card[] currentKnownCards(StreetPoker streetPoker) {
-        if (streetPoker == StreetPoker.PRE_FLOP) {
-            return this.cardsOfPlayer;
-        } else if (streetPoker == StreetPoker.FLOP) {
-            return this.flopCards;
-        } else if (streetPoker == StreetPoker.TURN) {
-            return new Card[]{this.getTurnCard()};
-        }
-        return new Card[]{this.getRiverCard()};
     }
 
 }
