@@ -1,13 +1,12 @@
 package inputer;
 
+import engine.models.Distribution;
 import engine.models.Game;
 import engine.models.Table;
 import outer.Outer;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +30,7 @@ public class Scanner {
     public List<String> scanner(File fileInput) {
         while (true) {
             try (RandomAccessFile randomAccessFile = new RandomAccessFile(fileInput, "r")) {
-                if (timeToReading(fileInput)) {
+                if (isTimeToReading(fileInput)) {
                     return readingLogs(randomAccessFile);
                 }
             } catch (IOException exc) {
@@ -40,8 +39,7 @@ public class Scanner {
         }
     }
 
-    public List<String> readingLogs(RandomAccessFile randomAccessFile) throws IOException {
-        final String pathOutput = "C:\\Users\\Alex\\Desktop\\temp.0";
+    protected List<String> readingLogs(RandomAccessFile randomAccessFile) throws IOException {
         List<String> tempStorage = new ArrayList<>();
         String tempString;
         while (!isStartOfDistribution(tempString = readReverseFile(randomAccessFile))) {
@@ -51,23 +49,17 @@ public class Scanner {
         }
         tempStorage.add(tempString);
         if (isTableNew(tempString)) {
-            Game.tables.add(new Table(tempString.substring(19), searchMaxTablePlayers(randomAccessFile),
-                    searchBigBlind(randomAccessFile), Outer.getForegroundWindow()));
-        }
-        try (PrintStream outputFile = new PrintStream(new FileOutputStream(pathOutput))) {
-            for (int i = tempStorage.size() - 1; i >= 0; i--) {
-                outputFile.println(tempStorage.get(i));
-            }
-        } catch (IOException exc) {
-            System.out.println("I/O Error: " + exc);
+            Game.TABLES.add(new Table(tempString.substring(19), searchMaxTablePlayers(randomAccessFile),
+                    searchSmallBlind(randomAccessFile), new Distribution(tempString.substring(6, 18)),
+                    Outer.getForegroundWindow()));
         }
         Collections.reverse(tempStorage);
         return tempStorage;
     }
 
-    public int searchMaxTablePlayers(RandomAccessFile randomAccessFile) throws IOException {
+    protected int searchMaxTablePlayers(RandomAccessFile randomAccessFile) throws IOException {
         String tempString;
-        int count = -1;
+        int count;
         while ((tempString = readReverseFile(randomAccessFile)) != null) {
             if (tempString.length() >= 3 && tempString.substring(0, 3).equals("max")) {
                 count = Integer.parseInt(tempString.substring(18, 19));
@@ -76,10 +68,10 @@ public class Scanner {
                 }
             }
         }
-        return count;
+        throw new RuntimeException();
     }
 
-    public int searchBigBlind(RandomAccessFile randomAccessFile) throws IOException {
+    protected int searchSmallBlind(RandomAccessFile randomAccessFile) throws IOException {
         String tempString;
         int count = -1;
         while ((tempString = randomAccessFile.readLine()) != null) {
@@ -92,10 +84,10 @@ public class Scanner {
         return count;
     }
 
-    public boolean isTableNew(final String tempString) {
-        if (Game.tables.size() != 0) {
+    protected boolean isTableNew(final String tempString) {
+        if (Game.TABLES.size() != 0) {
             String tempHexKey = tempString.substring(19);
-            for (Table table : Game.tables) {
+            for (Table table : Game.TABLES) {
                 if (tempHexKey.equals(table.getHexKey())) {
                     return false;
                 }
@@ -104,11 +96,11 @@ public class Scanner {
         return true;
     }
 
-    public boolean isStartOfDistribution(final String tempString) {
+    protected boolean isStartOfDistribution(final String tempString) {
         return tempString.length() >= 4 && tempString.substring(0, 4).equals("Game");
     }
 
-    public boolean isImportant(final String tempString) {
+    protected boolean isImportant(final String tempString) {
         if (tempString.length() >= 2) {
             String subString = tempString.substring(0,3);
             for (String notImportant : Scanner.filters) {
@@ -121,7 +113,7 @@ public class Scanner {
         return false;
     }
 
-    public boolean timeToReading(final File fileInput) throws IOException {
+    protected boolean isTimeToReading(final File fileInput) throws IOException {
         Date currentDate = new Date();
         Date fileDate = new Date(fileInput.lastModified());
         if (currentDate.after(fileDate)) {
@@ -139,7 +131,7 @@ public class Scanner {
         return false;
     }
 
-    public String readReverseFile(RandomAccessFile inputFile) throws IOException {
+    protected String readReverseFile(RandomAccessFile inputFile) throws IOException {
         StringBuilder line = new StringBuilder();
         boolean eol = false;
         long readerPointer;
