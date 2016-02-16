@@ -109,7 +109,7 @@ public class ScannerTest {
         final int expectedAnswer = 1000;
         int actualAnswer = -1;
         try (RandomAccessFile randomAccessFile = new RandomAccessFile(tempFile, "r")) {
-            actualAnswer = scanner.searchBigBlind(randomAccessFile);
+            actualAnswer = scanner.searchSmallBlind(randomAccessFile);
         } catch (IOException exc) {
             System.out.println("I/O Error: " + exc);
         }
@@ -140,8 +140,8 @@ public class ScannerTest {
     @Test
     public void testIsTableNewWhenTableNew() throws Exception {
         final Scanner scanner = new Scanner();
-        final Table table = new Table("321DF898", 10, 6, null);
-        Game.tables.add(table);
+        final Table table = new Table("321DF898", 10, 6, null, null);
+        Game.TABLES.add(table);
         final String tempString = "Game #142837817463 005D0A29";
         final boolean actualAnswer = scanner.isTableNew(tempString);
         assertTrue(actualAnswer);
@@ -150,8 +150,8 @@ public class ScannerTest {
     @Test
     public void testIsTableNewWhenTableNotNew() throws Exception {
         final Scanner scanner = new Scanner();
-        final Table table = new Table("005D0A28", 10,  6, null);
-        Game.tables.add(table);
+        final Table table = new Table("005D0A28", 10,  6, null, null);
+        Game.TABLES.add(table);
         final String tempString = "Game #142837817463 005D0A28";
         final boolean actualResult = scanner.isTableNew(tempString);
         assertFalse(actualResult);
@@ -192,7 +192,7 @@ public class ScannerTest {
     @Test
      public void testTimeToReadingWhenTrue() throws Exception {
         final Scanner scanner = new Scanner();
-        final boolean actualAnswer = scanner.timeToReading(tempFile);
+        final boolean actualAnswer = scanner.isTimeToReading(tempFile);
         assertTrue(actualAnswer);
     }
 
@@ -205,7 +205,7 @@ public class ScannerTest {
         } catch (IOException exc) {
             System.out.println("I/O Error: " + exc);
         }
-        final boolean actualAnswer = scanner.timeToReading(tempFile);
+        final boolean actualAnswer = scanner.isTimeToReading(tempFile);
         assertFalse(actualAnswer);
     }
 
