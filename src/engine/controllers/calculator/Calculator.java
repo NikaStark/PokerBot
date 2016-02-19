@@ -3,6 +3,7 @@ package engine.controllers.calculator;
 import engine.models.Card;
 import engine.models.Distribution;
 import engine.models.Enums.Combinations;
+import engine.models.Enums.Dignities;
 import engine.models.Game;
 
 import java.util.ArrayList;
@@ -127,8 +128,8 @@ public class Calculator {
     }
 
     protected boolean isRoyalFlush(Card[] possibleCombination) {
-        int[] numericValues = getAllSortedNumericValues(possibleCombination);
-        return (isStraightFlush(possibleCombination) && numericValues[0] == Game.MAX_NUMERIC_VALUE_CARD);
+        int[] dignities = getAllSortedDignities(possibleCombination);
+        return (isStraightFlush(possibleCombination) && dignities[0] == Dignities.TEN.getNumericValue());
     }
 
     protected boolean isStraightFlush(Card[] possibleCombination) {
@@ -136,10 +137,10 @@ public class Calculator {
     }
 
     protected boolean isFourOFAKind(Card[] possibleCombination) {
-        int[] numericValues = getAllSortedNumericValues(possibleCombination);
+        int[] dignities = getAllSortedDignities(possibleCombination);
         int counter = 0;
         for (int i = 0; i < possibleCombination.length - 1; i++) {
-            if (numericValues[i] == numericValues[i + 1]) {
+            if (dignities[i] == dignities[i + 1]) {
                 counter++;
             } else {
                 counter = 0;
@@ -152,25 +153,25 @@ public class Calculator {
     }
 
     protected boolean isFullHouse(Card[] possibleCombination) {
-        int[] numericValues = getAllSortedNumericValues(possibleCombination);
+        int[] dignities = getAllSortedDignities(possibleCombination);
         int counterForThreeOfKind = 0;
-        int numericValueOfThreeOfAKind = 0;
+        int dignityOfThreeOfAKind = 0;
         boolean isThreeOfAKind = false;
         boolean isPair = false;
         for (int i = 0; i < possibleCombination.length - 1; i++) {
-            if (numericValues[i] == numericValues[i + 1]) {
+            if (dignities[i] == dignities[i + 1]) {
                 counterForThreeOfKind++;
             } else {
                 counterForThreeOfKind = 0;
             }
             if (counterForThreeOfKind == 2) {
                 isThreeOfAKind = true;
-                numericValueOfThreeOfAKind = numericValues[i];
+                dignityOfThreeOfAKind = dignities[i];
             }
         }
-        for (int i = 0; i < numericValues.length - 1; i++) {
-            if (numericValues[i] != numericValueOfThreeOfAKind) {
-                if (numericValues[i] == numericValues[i + 1]) {
+        for (int i = 0; i < dignities.length - 1; i++) {
+            if (dignities[i] != dignityOfThreeOfAKind) {
+                if (dignities[i] == dignities[i + 1]) {
                     isPair = true;
                 }
             }
@@ -190,10 +191,10 @@ public class Calculator {
     }
 
     protected boolean isStraight(Card[] possibleCombination) {
-        int[] numericValues = getAllSortedNumericValues(possibleCombination);
+        int[] dignities = getAllSortedDignities(possibleCombination);
         int counter = 0;
         for (int i = 0; i < possibleCombination.length - 1; i++) {
-            if (numericValues[i] + 1 == numericValues[i + 1]) {
+            if (dignities[i] + 1 == dignities[i + 1]) {
                 counter++;
             }
         }
@@ -201,10 +202,10 @@ public class Calculator {
     }
 
     protected boolean isThreeOfAKind(Card[] possibleCombination) {
-        int[] numericValues = getAllSortedNumericValues(possibleCombination);
+        int[] dignities = getAllSortedDignities(possibleCombination);
         int counter = 0;
         for (int i = 0; i < possibleCombination.length - 1; i++) {
-            if (numericValues[i] == numericValues[i + 1]) {
+            if (dignities[i] == dignities[i + 1]) {
                 counter++;
             } else {
                 counter = 0;
@@ -217,10 +218,10 @@ public class Calculator {
     }
 
     protected boolean isTwoPair(Card[] possibleCombination) {
-        int[] numericValues = getAllSortedNumericValues(possibleCombination);
+        int[] dignities = getAllSortedDignities(possibleCombination);
         int counter = 0;
         for (int i = 0; i < possibleCombination.length - 1; i++) {
-            if (numericValues[i] == numericValues[i + 1]) {
+            if (dignities[i] == dignities[i + 1]) {
                 counter++;
                 i++;
             }
@@ -229,22 +230,22 @@ public class Calculator {
     }
 
     protected boolean isPair(Card[] possibleCombination) {
-        int[] numericValues = getAllSortedNumericValues(possibleCombination);
-        for (int i = 0; i < numericValues.length - 1; i++) {
-            if (numericValues[i] == numericValues[i + 1]) {
+        int[] dignities = getAllSortedDignities(possibleCombination);
+        for (int i = 0; i < dignities.length - 1; i++) {
+            if (dignities[i] == dignities[i + 1]) {
                 return true;
             }
         }
         return false;
     }
 
-    protected int[] getAllSortedNumericValues(Card[] possibleCombination) {
-        int[] numericValues = new int[possibleCombination.length];
+    protected int[] getAllSortedDignities(Card[] possibleCombination) {
+        int[] dignities = new int[possibleCombination.length];
         for (int i = 0; i < possibleCombination.length; i++) {
-            numericValues[i] = possibleCombination[i].getDignity();
+            dignities[i] = possibleCombination[i].getDignity().getNumericValue();
         }
-        Arrays.sort(numericValues);
-        return numericValues;
+        Arrays.sort(dignities);
+        return dignities;
     }
 
     protected String[] getAllSortedSuits(Card[] possibleCombination) {

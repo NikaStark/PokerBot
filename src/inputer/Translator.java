@@ -1,6 +1,8 @@
 package inputer;
 
 import engine.models.*;
+import engine.models.Enums.Dignities;
+import engine.models.Enums.Suits;
 import engine.models.exceptions.*;
 
 import java.util.List;
@@ -128,7 +130,7 @@ public class Translator {
         }
     }
 
-    protected Card searchCard(String line) throws IllegalSuitException {
+    protected Card searchCard(String line) throws IllegalSuitException, IllegalDignityException {
         int numericValue = Integer.parseInt(line.substring(33, 34));
         char suit;
         if (numericValue == 1) {
@@ -137,7 +139,7 @@ public class Translator {
         } else {
             suit = line.charAt(34);
         }
-        return new Card(numericValue, suit);
+        return new Card(Dignities.create(numericValue), Suits.create(suit));
     }
 
     protected void initializePlayer(String line, Table currentTable) {
@@ -177,7 +179,7 @@ public class Translator {
                     currentTable.getCurrentDistribution().setRiverCard(searchCard(line));
                 }
             }
-        }catch (IllegalSuitException | ReassigningFieldException exc) {
+        }catch (IllegalSuitException | IllegalDignityException | ReassigningFieldException exc) {
             throw new RuntimeException("Exception - " + exc);
         }
     }

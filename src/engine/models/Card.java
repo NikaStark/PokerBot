@@ -1,48 +1,19 @@
 package engine.models;
 
-import engine.models.Enums.HighCard;
+import engine.models.Enums.Dignities;
 import engine.models.Enums.Suits;
-import engine.models.exceptions.IllegalSuitException;
 
 public class Card {
 
-    private final int dignity;
+    private final Dignities dignity;
     private final Suits suit;
 
-    public Card(final int dignity, final Suits suit) {
+    public Card(final Dignities dignity, final Suits suit) {
         this.dignity = dignity;
         this.suit = suit;
     }
 
-    public Card(final int dignity, final char suit)  throws IllegalSuitException {
-        if (suit == 's' || suit == 'S'){
-            this.suit = Suits.SPADES;
-        } else if (suit == 'h' || suit == 'H'){
-            this.suit = Suits.HERTZ;
-        } else if (suit == 'c' || suit == 'C'){
-            this.suit = Suits.CLUBS;
-        } else if (suit == 'd' || suit == 'D'){
-            this.suit = Suits.DIAMONDS;
-        } else {
-            throw new IllegalSuitException();
-        }
-        this.dignity = dignity;
-    }
-
-    public Card(final HighCard symbolicValue, final Suits suit) {
-        if (symbolicValue == HighCard.Jack){
-            this.dignity = Game.MAX_NUMERIC_VALUE_CARD + 1;
-        } else if (symbolicValue == HighCard.Queen){
-            this.dignity = Game.MAX_NUMERIC_VALUE_CARD + 2;
-        } else if (symbolicValue == HighCard.King){
-            this.dignity = Game.MAX_NUMERIC_VALUE_CARD + 3;
-        } else {
-            this.dignity = Game.MAX_NUMERIC_VALUE_CARD + 4;
-        }
-        this.suit = suit;
-    }
-
-    public int getDignity() {
+    public Dignities getDignity() {
         return dignity;
     }
 
@@ -66,7 +37,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return this.dignity + this.suit.toString();
+        return this.dignity + " " + this.suit.toString();
     }
 
 }
