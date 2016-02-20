@@ -2,7 +2,7 @@ package engine.controllers.calculator;
 
 import engine.models.Card;
 import engine.models.Distribution;
-import engine.models.Enums.HighCard;
+import engine.models.Enums.Dignities;
 import engine.models.Enums.Suits;
 import org.junit.Test;
 
@@ -19,58 +19,58 @@ public class CalculatorTest {
         final Calculator calculator = new Calculator();
         final ArrayList<Card[]> inputPossibleCards = new ArrayList<>(Arrays.asList(new Card[][]{
                 new Card[] {
-                        new Card(HighCard.Ace, Suits.CLUBS),
-                        new Card(2, Suits.CLUBS),
-                        new Card(HighCard.Jack, Suits.CLUBS),
-                        new Card(9, Suits.DIAMONDS),
-                        new Card(10, Suits.HERTZ)
+                        new Card(Dignities.ACE, Suits.CLUBS),
+                        new Card(Dignities.create(2), Suits.CLUBS),
+                        new Card(Dignities.JACK, Suits.CLUBS),
+                        new Card(Dignities.create(9), Suits.DIAMONDS),
+                        new Card(Dignities.create(10), Suits.HERTZ)
                 },
                 new Card[] {
-                        new Card(HighCard.Jack, Suits.DIAMONDS),
-                        new Card(5, Suits.DIAMONDS),
-                        new Card(HighCard.Ace, Suits.HERTZ),
-                        new Card(HighCard.King, Suits.HERTZ),
-                        new Card(HighCard.Queen, Suits.HERTZ)
+                        new Card(Dignities.JACK, Suits.DIAMONDS),
+                        new Card(Dignities.create(5), Suits.DIAMONDS),
+                        new Card(Dignities.ACE, Suits.HERTZ),
+                        new Card(Dignities.KING, Suits.HERTZ),
+                        new Card(Dignities.QUEEN, Suits.HERTZ)
                 },
                 new Card[] {
-                        new Card(9, Suits.CLUBS),
-                        new Card(HighCard.King, Suits.SPADES),
-                        new Card(HighCard.Queen, Suits.SPADES),
-                        new Card(HighCard.Jack, Suits.SPADES),
-                        new Card(10, Suits.SPADES)
+                        new Card(Dignities.create(9), Suits.CLUBS),
+                        new Card(Dignities.KING, Suits.SPADES),
+                        new Card(Dignities.QUEEN, Suits.SPADES),
+                        new Card(Dignities.JACK, Suits.SPADES),
+                        new Card(Dignities.create(10), Suits.SPADES)
                 }
 
         }));
         final Card[] inputKnownCard = new Card[] {
-                new Card(7, Suits.CLUBS),
-                new Card(6, Suits.HERTZ)};
+                new Card(Dignities.create(7), Suits.CLUBS),
+                new Card(Dignities.create(6), Suits.HERTZ)};
         final ArrayList<Card[]>  expectedAnswer = new ArrayList<>(Arrays.asList(new Card[][]{
                 new Card[] {
-                        new Card(HighCard.Ace, Suits.CLUBS),
-                        new Card(2, Suits.CLUBS),
-                        new Card(HighCard.Jack, Suits.CLUBS),
-                        new Card(9, Suits.DIAMONDS),
-                        new Card(10, Suits.HERTZ),
-                        new Card(7, Suits.CLUBS),
-                        new Card(6, Suits.HERTZ)
+                        new Card(Dignities.ACE, Suits.CLUBS),
+                        new Card(Dignities.create(2), Suits.CLUBS),
+                        new Card(Dignities.JACK, Suits.CLUBS),
+                        new Card(Dignities.create(9), Suits.DIAMONDS),
+                        new Card(Dignities.create(10), Suits.HERTZ),
+                        new Card(Dignities.create(7), Suits.CLUBS),
+                        new Card(Dignities.create(6), Suits.HERTZ)
                 },
                 new Card[] {
-                        new Card(HighCard.Jack, Suits.DIAMONDS),
-                        new Card(5, Suits.DIAMONDS),
-                        new Card(HighCard.Ace, Suits.HERTZ),
-                        new Card(HighCard.King, Suits.HERTZ),
-                        new Card(HighCard.Queen, Suits.HERTZ),
-                        new Card(7, Suits.CLUBS),
-                        new Card(6, Suits.HERTZ)
+                        new Card(Dignities.JACK, Suits.DIAMONDS),
+                        new Card(Dignities.create(5), Suits.DIAMONDS),
+                        new Card(Dignities.ACE, Suits.HERTZ),
+                        new Card(Dignities.KING, Suits.HERTZ),
+                        new Card(Dignities.QUEEN, Suits.HERTZ),
+                        new Card(Dignities.create(7), Suits.CLUBS),
+                        new Card(Dignities.create(6), Suits.HERTZ)
                 },
                 new Card[] {
-                        new Card(9, Suits.CLUBS),
-                        new Card(HighCard.King, Suits.SPADES),
-                        new Card(HighCard.Queen, Suits.SPADES),
-                        new Card(HighCard.Jack, Suits.SPADES),
-                        new Card(10, Suits.SPADES),
-                        new Card(7, Suits.CLUBS),
-                        new Card(6, Suits.HERTZ)
+                        new Card(Dignities.create(9), Suits.CLUBS),
+                        new Card(Dignities.KING, Suits.SPADES),
+                        new Card(Dignities.QUEEN, Suits.SPADES),
+                        new Card(Dignities.JACK, Suits.SPADES),
+                        new Card(Dignities.create(10), Suits.SPADES),
+                        new Card(Dignities.create(7), Suits.CLUBS),
+                        new Card(Dignities.create(6), Suits.HERTZ)
                 }
         }));
         final ArrayList<Card[]> actualAnswer = calculator.createPossibleCombinations(inputPossibleCards, inputKnownCard);
@@ -82,13 +82,13 @@ public class CalculatorTest {
     public void testSearchMaxCombination() throws Exception {
         final Calculator calculator = new Calculator();
         final ArrayList<Card> inputCards = new ArrayList<>(Arrays.asList(new Card[]{
-                new Card(HighCard.Ace, Suits.CLUBS),
-                new Card(2, Suits.CLUBS),
-                new Card(HighCard.Jack, Suits.CLUBS),
-                new Card(9, Suits.DIAMONDS),
-                new Card(10, Suits.HERTZ),
-                new Card(HighCard.Jack, Suits.DIAMONDS),
-                new Card(5, Suits.DIAMONDS)
+                new Card(Dignities.ACE, Suits.CLUBS),
+                new Card(Dignities.create(2), Suits.CLUBS),
+                new Card(Dignities.JACK, Suits.CLUBS),
+                new Card(Dignities.create(9), Suits.DIAMONDS),
+                new Card(Dignities.create(10), Suits.HERTZ),
+                new Card(Dignities.JACK, Suits.DIAMONDS),
+                new Card(Dignities.create(5), Suits.DIAMONDS)
         }));
         final int expectedAnswer = 1;
         final int actualAnswer = calculator.searchMaxCombination(inputCards);
@@ -99,30 +99,30 @@ public class CalculatorTest {
     public void testSmartSample() throws Exception {
         final Calculator calculator = new Calculator();
         final ArrayList<Card> inputCards = new ArrayList<>(Arrays.asList(new Card[]{
-                new Card(HighCard.Ace, Suits.HERTZ),
-                new Card(HighCard.King, Suits.HERTZ),
-                new Card(HighCard.Queen, Suits.HERTZ),
-                new Card(HighCard.Jack, Suits.HERTZ)}));
+                new Card(Dignities.ACE, Suits.HERTZ),
+                new Card(Dignities.KING, Suits.HERTZ),
+                new Card(Dignities.QUEEN, Suits.HERTZ),
+                new Card(Dignities.JACK, Suits.HERTZ)}));
         final ArrayList<Card[]> expectedAnswer = new ArrayList<>(Arrays.asList(new Card[][]{
                 new Card[]{
-                        new Card(HighCard.Ace,Suits.HERTZ),
-                        new Card(HighCard.King, Suits.HERTZ),
-                        new Card(HighCard.Queen, Suits.HERTZ)
+                        new Card(Dignities.ACE,Suits.HERTZ),
+                        new Card(Dignities.KING, Suits.HERTZ),
+                        new Card(Dignities.QUEEN, Suits.HERTZ)
                 },
                 new Card[]{
-                        new Card(HighCard.Ace, Suits.HERTZ),
-                        new Card(HighCard.King, Suits.HERTZ),
-                        new Card(HighCard.Jack, Suits.HERTZ)
+                        new Card(Dignities.ACE, Suits.HERTZ),
+                        new Card(Dignities.KING, Suits.HERTZ),
+                        new Card(Dignities.JACK, Suits.HERTZ)
                 },
                 new Card[]{
-                        new Card(HighCard.Ace, Suits.HERTZ),
-                        new Card(HighCard.Queen, Suits.HERTZ),
-                        new Card(HighCard.Jack, Suits.HERTZ)
+                        new Card(Dignities.ACE, Suits.HERTZ),
+                        new Card(Dignities.QUEEN, Suits.HERTZ),
+                        new Card(Dignities.JACK, Suits.HERTZ)
                 },
                 new Card[]{
-                        new Card(HighCard.King, Suits.HERTZ),
-                        new Card(HighCard.Queen, Suits.HERTZ),
-                        new Card(HighCard.Jack, Suits.HERTZ)
+                        new Card(Dignities.KING, Suits.HERTZ),
+                        new Card(Dignities.QUEEN, Suits.HERTZ),
+                        new Card(Dignities.JACK, Suits.HERTZ)
                 }
         }));
         final ArrayList<Card[]> actualAnswer = calculator.smartSample(inputCards, 3);
@@ -148,11 +148,11 @@ public class CalculatorTest {
         final Calculator calculator = new Calculator();
         final int expectedAnswer = 9;
         final Card[] inputCards = new Card[] {
-                new Card(HighCard.Ace, Suits.SPADES),
-                new Card(HighCard.King, Suits.SPADES),
-                new Card(HighCard.Queen, Suits.SPADES),
-                new Card(HighCard.Jack, Suits.SPADES),
-                new Card(10, Suits.SPADES)};
+                new Card(Dignities.ACE, Suits.SPADES),
+                new Card(Dignities.KING, Suits.SPADES),
+                new Card(Dignities.QUEEN, Suits.SPADES),
+                new Card(Dignities.JACK, Suits.SPADES),
+                new Card(Dignities.create(10), Suits.SPADES)};
 
         final int actualAnswer = calculator.whatCombination(inputCards);
         assertEquals(expectedAnswer, actualAnswer);
@@ -163,11 +163,11 @@ public class CalculatorTest {
         final Calculator calculator = new Calculator();
         final int expectedAnswer = 8;
         final Card[] inputCards = new Card[] {
-                new Card(6, Suits.CLUBS),
-                new Card(8, Suits.CLUBS),
-                new Card(7, Suits.CLUBS),
-                new Card(9, Suits.CLUBS),
-                new Card(5, Suits.CLUBS)};
+                new Card(Dignities.create(6), Suits.CLUBS),
+                new Card(Dignities.create(8), Suits.CLUBS),
+                new Card(Dignities.create(7), Suits.CLUBS),
+                new Card(Dignities.create(9), Suits.CLUBS),
+                new Card(Dignities.create(5), Suits.CLUBS)};
 
         final int actualAnswer = calculator.whatCombination(inputCards);
         assertEquals(expectedAnswer, actualAnswer);
@@ -178,11 +178,11 @@ public class CalculatorTest {
         final Calculator calculator = new Calculator();
         final int expectedAnswer = 7;
         final Card[] inputCards = new Card[] {
-                new Card(7, Suits.CLUBS),
-                new Card(7, Suits.DIAMONDS),
-                new Card(7, Suits.SPADES),
-                new Card(7, Suits.HERTZ),
-                new Card(9, Suits.CLUBS)};
+                new Card(Dignities.create(7), Suits.CLUBS),
+                new Card(Dignities.create(7), Suits.DIAMONDS),
+                new Card(Dignities.create(7), Suits.SPADES),
+                new Card(Dignities.create(7), Suits.HERTZ),
+                new Card(Dignities.create(9), Suits.CLUBS)};
 
         final int actualAnswer = calculator.whatCombination(inputCards);
         assertEquals(expectedAnswer, actualAnswer);
@@ -193,11 +193,11 @@ public class CalculatorTest {
         final Calculator calculator = new Calculator();
         final int expectedAnswer = 6;
         final Card[] inputCards = new Card[] {
-                new Card(7, Suits.CLUBS),
-                new Card(7, Suits.DIAMONDS),
-                new Card(7, Suits.SPADES),
-                new Card(9, Suits.HERTZ),
-                new Card(9, Suits.CLUBS)};
+                new Card(Dignities.create(7), Suits.CLUBS),
+                new Card(Dignities.create(7), Suits.DIAMONDS),
+                new Card(Dignities.create(7), Suits.SPADES),
+                new Card(Dignities.create(9), Suits.HERTZ),
+                new Card(Dignities.create(9), Suits.CLUBS)};
 
         final int actualAnswer = calculator.whatCombination(inputCards);
         assertEquals(expectedAnswer, actualAnswer);
@@ -208,11 +208,11 @@ public class CalculatorTest {
         final Calculator calculator = new Calculator();
         final int expectedAnswer = 5;
         final Card[] inputCards = new Card[] {
-                new Card(7, Suits.HERTZ),
-                new Card(4, Suits.HERTZ),
-                new Card(5, Suits.HERTZ),
-                new Card(9, Suits.HERTZ),
-                new Card(2, Suits.HERTZ)};
+                new Card(Dignities.create(7), Suits.HERTZ),
+                new Card(Dignities.create(4), Suits.HERTZ),
+                new Card(Dignities.create(5), Suits.HERTZ),
+                new Card(Dignities.create(9), Suits.HERTZ),
+                new Card(Dignities.create(2), Suits.HERTZ)};
 
         final int actualAnswer = calculator.whatCombination(inputCards);
         assertEquals(expectedAnswer, actualAnswer);
@@ -223,11 +223,11 @@ public class CalculatorTest {
         final Calculator calculator = new Calculator();
         final int expectedAnswer = 4;
         final Card[] inputCards = new Card[] {
-                new Card(6, Suits.CLUBS),
-                new Card(4, Suits.HERTZ),
-                new Card(5, Suits.SPADES),
-                new Card(3, Suits.HERTZ),
-                new Card(2, Suits.HERTZ)};
+                new Card(Dignities.create(6), Suits.CLUBS),
+                new Card(Dignities.create(4), Suits.HERTZ),
+                new Card(Dignities.create(5), Suits.SPADES),
+                new Card(Dignities.create(3), Suits.HERTZ),
+                new Card(Dignities.create(2), Suits.HERTZ)};
 
         final int actualAnswer = calculator.whatCombination(inputCards);
         assertEquals(expectedAnswer, actualAnswer);
@@ -238,11 +238,11 @@ public class CalculatorTest {
         final Calculator calculator = new Calculator();
         final int expectedAnswer = 3;
         final Card[] inputCards = new Card[] {
-                new Card(6, Suits.CLUBS),
-                new Card(4, Suits.HERTZ),
-                new Card(6, Suits.SPADES),
-                new Card(3, Suits.HERTZ),
-                new Card(6, Suits.HERTZ)};
+                new Card(Dignities.create(6), Suits.CLUBS),
+                new Card(Dignities.create(4), Suits.HERTZ),
+                new Card(Dignities.create(6), Suits.SPADES),
+                new Card(Dignities.create(3), Suits.HERTZ),
+                new Card(Dignities.create(6), Suits.HERTZ)};
 
         final int actualAnswer = calculator.whatCombination(inputCards);
         assertEquals(expectedAnswer, actualAnswer);
@@ -253,11 +253,11 @@ public class CalculatorTest {
         final Calculator calculator = new Calculator();
         final int expectedAnswer = 2;
         final Card[] inputCards = new Card[] {
-                new Card(8, Suits.DIAMONDS),
-                new Card(7, Suits.HERTZ),
-                new Card(3, Suits.SPADES),
-                new Card(3, Suits.DIAMONDS),
-                new Card(8, Suits.HERTZ)};
+                new Card(Dignities.create(8), Suits.DIAMONDS),
+                new Card(Dignities.create(7), Suits.HERTZ),
+                new Card(Dignities.create(3), Suits.SPADES),
+                new Card(Dignities.create(3), Suits.DIAMONDS),
+                new Card(Dignities.create(8), Suits.HERTZ)};
 
         final int actualAnswer = calculator.whatCombination(inputCards);
         assertEquals(expectedAnswer, actualAnswer);
@@ -268,11 +268,11 @@ public class CalculatorTest {
         final Calculator calculator = new Calculator();
         final int expectedAnswer = 1;
         final Card[] inputCards = new Card[] {
-                new Card(8, Suits.DIAMONDS),
-                new Card(7, Suits.HERTZ),
-                new Card(3, Suits.SPADES),
-                new Card(4, Suits.DIAMONDS),
-                new Card(8, Suits.HERTZ)};
+                new Card(Dignities.create(8), Suits.DIAMONDS),
+                new Card(Dignities.create(7), Suits.HERTZ),
+                new Card(Dignities.create(3), Suits.SPADES),
+                new Card(Dignities.create(4), Suits.DIAMONDS),
+                new Card(Dignities.create(8), Suits.HERTZ)};
 
         final int actualAnswer = calculator.whatCombination(inputCards);
         assertEquals(expectedAnswer, actualAnswer);
@@ -283,11 +283,11 @@ public class CalculatorTest {
         final Calculator calculator = new Calculator();
         final int expectedAnswer = 0;
         final Card[] inputCards = new Card[] {
-                new Card(8, Suits.DIAMONDS),
-                new Card(7, Suits.HERTZ),
-                new Card(3, Suits.SPADES),
-                new Card(4, Suits.DIAMONDS),
-                new Card(2, Suits.CLUBS)};
+                new Card(Dignities.create(8), Suits.DIAMONDS),
+                new Card(Dignities.create(7), Suits.HERTZ),
+                new Card(Dignities.create(3), Suits.SPADES),
+                new Card(Dignities.create(4), Suits.DIAMONDS),
+                new Card(Dignities.create(2), Suits.CLUBS)};
 
         final int actualAnswer = calculator.whatCombination(inputCards);
         assertEquals(expectedAnswer, actualAnswer);
@@ -297,11 +297,11 @@ public class CalculatorTest {
     public void testIsRoyalFlushWhenTrue() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.SPADES),
-                new Card(HighCard.King, Suits.SPADES),
-                new Card(HighCard.Queen, Suits.SPADES),
-                new Card(HighCard.Jack, Suits.SPADES),
-                new Card(10, Suits.SPADES)};
+                new Card(Dignities.ACE, Suits.SPADES),
+                new Card(Dignities.KING, Suits.SPADES),
+                new Card(Dignities.QUEEN, Suits.SPADES),
+                new Card(Dignities.JACK, Suits.SPADES),
+                new Card(Dignities.create(10), Suits.SPADES)};
 
         final boolean actualAnswer = calculator.isRoyalFlush(inputCards);
         assertTrue(actualAnswer);
@@ -311,11 +311,11 @@ public class CalculatorTest {
     public void testIsRoyalFlushWhenFalse() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.SPADES),
-                new Card(HighCard.King, Suits.SPADES),
-                new Card(HighCard.Queen, Suits.SPADES),
-                new Card(HighCard.Jack, Suits.SPADES),
-                new Card(9, Suits.SPADES)};
+                new Card(Dignities.ACE, Suits.SPADES),
+                new Card(Dignities.KING, Suits.SPADES),
+                new Card(Dignities.QUEEN, Suits.SPADES),
+                new Card(Dignities.JACK, Suits.SPADES),
+                new Card(Dignities.create(9), Suits.SPADES)};
 
         final boolean actualAnswer = calculator.isRoyalFlush(inputCards);
         assertFalse(actualAnswer);
@@ -325,11 +325,11 @@ public class CalculatorTest {
     public void testIsStraightFlushTrue() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(9, Suits.SPADES),
-                new Card(HighCard.King, Suits.SPADES),
-                new Card(HighCard.Queen, Suits.SPADES),
-                new Card(HighCard.Jack, Suits.SPADES),
-                new Card(10, Suits.SPADES)};
+                new Card(Dignities.create(9), Suits.SPADES),
+                new Card(Dignities.KING, Suits.SPADES),
+                new Card(Dignities.QUEEN, Suits.SPADES),
+                new Card(Dignities.JACK, Suits.SPADES),
+                new Card(Dignities.create(10), Suits.SPADES)};
 
         final boolean actualAnswer = calculator.isStraightFlush(inputCards);
         assertTrue(actualAnswer);
@@ -339,11 +339,11 @@ public class CalculatorTest {
     public void testIsStraightFlushFalse() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(9, Suits.CLUBS),
-                new Card(HighCard.King, Suits.SPADES),
-                new Card(HighCard.Queen, Suits.SPADES),
-                new Card(HighCard.Jack, Suits.SPADES),
-                new Card(10, Suits.SPADES)};
+                new Card(Dignities.create(9), Suits.CLUBS),
+                new Card(Dignities.KING, Suits.SPADES),
+                new Card(Dignities.QUEEN, Suits.SPADES),
+                new Card(Dignities.JACK, Suits.SPADES),
+                new Card(Dignities.create(10), Suits.SPADES)};
 
         final boolean actualAnswer = calculator.isStraightFlush(inputCards);
         assertFalse(actualAnswer);
@@ -353,11 +353,11 @@ public class CalculatorTest {
     public void testIsFourOFAKindTrue() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.SPADES),
-                new Card(HighCard.King, Suits.SPADES),
-                new Card(HighCard.King, Suits.HERTZ),
-                new Card(HighCard.King, Suits.CLUBS),
-                new Card(HighCard.King, Suits.DIAMONDS)};
+                new Card(Dignities.ACE, Suits.SPADES),
+                new Card(Dignities.KING, Suits.SPADES),
+                new Card(Dignities.KING, Suits.HERTZ),
+                new Card(Dignities.KING, Suits.CLUBS),
+                new Card(Dignities.KING, Suits.DIAMONDS)};
 
         final boolean actualAnswer = calculator.isFourOFAKind(inputCards);
         assertTrue(actualAnswer);
@@ -367,11 +367,11 @@ public class CalculatorTest {
     public void testIsFourOFAKindFalse() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.SPADES),
-                new Card(HighCard.King, Suits.SPADES),
-                new Card(HighCard.King, Suits.HERTZ),
-                new Card(HighCard.King, Suits.CLUBS),
-                new Card(HighCard.Ace, Suits.DIAMONDS)};
+                new Card(Dignities.ACE, Suits.SPADES),
+                new Card(Dignities.KING, Suits.SPADES),
+                new Card(Dignities.KING, Suits.HERTZ),
+                new Card(Dignities.KING, Suits.CLUBS),
+                new Card(Dignities.ACE, Suits.DIAMONDS)};
 
         final boolean actualAnswer = calculator.isFourOFAKind(inputCards);
         assertFalse(actualAnswer);
@@ -381,11 +381,11 @@ public class CalculatorTest {
     public void testIsFullHouseTrue() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.SPADES),
-                new Card(HighCard.Ace, Suits.DIAMONDS),
-                new Card(HighCard.Ace, Suits.HERTZ),
-                new Card(HighCard.King, Suits.CLUBS),
-                new Card(HighCard.King, Suits.DIAMONDS)};
+                new Card(Dignities.ACE, Suits.SPADES),
+                new Card(Dignities.ACE, Suits.DIAMONDS),
+                new Card(Dignities.ACE, Suits.HERTZ),
+                new Card(Dignities.KING, Suits.CLUBS),
+                new Card(Dignities.KING, Suits.DIAMONDS)};
 
         final boolean actualAnswer = calculator.isFullHouse(inputCards);
         assertTrue(actualAnswer);
@@ -395,11 +395,11 @@ public class CalculatorTest {
     public void testIsFullHouseFalse() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.SPADES),
-                new Card(HighCard.Ace, Suits.DIAMONDS),
-                new Card(HighCard.Ace, Suits.HERTZ),
-                new Card(HighCard.King, Suits.CLUBS),
-                new Card(HighCard.Jack, Suits.DIAMONDS)};
+                new Card(Dignities.ACE, Suits.SPADES),
+                new Card(Dignities.ACE, Suits.DIAMONDS),
+                new Card(Dignities.ACE, Suits.HERTZ),
+                new Card(Dignities.ACE, Suits.CLUBS),
+                new Card(Dignities.JACK, Suits.DIAMONDS)};
 
         final boolean actualAnswer = calculator.isFullHouse(inputCards);
         assertFalse(actualAnswer);
@@ -409,11 +409,11 @@ public class CalculatorTest {
     public void testIsFlushTrue() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(9, Suits.HERTZ),
-                new Card(4, Suits.HERTZ),
-                new Card(7, Suits.HERTZ),
-                new Card(2, Suits.HERTZ),
-                new Card(3, Suits.HERTZ)};
+                new Card(Dignities.create(9), Suits.HERTZ),
+                new Card(Dignities.create(4), Suits.HERTZ),
+                new Card(Dignities.create(7), Suits.HERTZ),
+                new Card(Dignities.create(2), Suits.HERTZ),
+                new Card(Dignities.create(3), Suits.HERTZ)};
 
         final boolean actualAnswer = calculator.isFlush(inputCards);
         assertTrue(actualAnswer);
@@ -423,11 +423,11 @@ public class CalculatorTest {
     public void testIsFlushFalse() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(9, Suits.HERTZ),
-                new Card(8, Suits.HERTZ),
-                new Card(7, Suits.CLUBS),
-                new Card(6, Suits.HERTZ),
-                new Card(5, Suits.HERTZ)};
+                new Card(Dignities.create(9), Suits.HERTZ),
+                new Card(Dignities.create(8), Suits.HERTZ),
+                new Card(Dignities.create(7), Suits.CLUBS),
+                new Card(Dignities.create(6), Suits.HERTZ),
+                new Card(Dignities.create(5), Suits.HERTZ)};
 
         final boolean actualAnswer = calculator.isFlush(inputCards);
         assertFalse(actualAnswer);
@@ -437,11 +437,11 @@ public class CalculatorTest {
     public void testIsStraightTrue() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(9, Suits.DIAMONDS),
-                new Card(8, Suits.HERTZ),
-                new Card(7, Suits.CLUBS),
-                new Card(6, Suits.HERTZ),
-                new Card(5, Suits.HERTZ)};
+                new Card(Dignities.create(9), Suits.DIAMONDS),
+                new Card(Dignities.create(8), Suits.HERTZ),
+                new Card(Dignities.create(7), Suits.CLUBS),
+                new Card(Dignities.create(6), Suits.HERTZ),
+                new Card(Dignities.create(5), Suits.HERTZ)};
 
         final boolean actualAnswer = calculator.isStraight(inputCards);
         assertTrue(actualAnswer);
@@ -451,11 +451,11 @@ public class CalculatorTest {
     public void testIsStraightFalse() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(9, Suits.DIAMONDS),
-                new Card(8, Suits.HERTZ),
-                new Card(2, Suits.CLUBS),
-                new Card(6, Suits.HERTZ),
-                new Card(5, Suits.HERTZ)};
+                new Card(Dignities.create(9), Suits.DIAMONDS),
+                new Card(Dignities.create(8), Suits.HERTZ),
+                new Card(Dignities.create(2), Suits.CLUBS),
+                new Card(Dignities.create(6), Suits.HERTZ),
+                new Card(Dignities.create(5), Suits.HERTZ)};
 
         final boolean actualAnswer = calculator.isStraight(inputCards);
         assertFalse(actualAnswer);
@@ -465,11 +465,11 @@ public class CalculatorTest {
     public void testIsThreeOfAKindTrue() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.DIAMONDS),
-                new Card(HighCard.King, Suits.HERTZ),
-                new Card(6, Suits.DIAMONDS),
-                new Card(6, Suits.HERTZ),
-                new Card(6, Suits.CLUBS)};
+                new Card(Dignities.ACE, Suits.DIAMONDS),
+                new Card(Dignities.KING, Suits.HERTZ),
+                new Card(Dignities.create(6), Suits.DIAMONDS),
+                new Card(Dignities.create(6), Suits.HERTZ),
+                new Card(Dignities.create(6), Suits.CLUBS)};
 
         final boolean actualAnswer = calculator.isThreeOfAKind(inputCards);
         assertTrue(actualAnswer);
@@ -479,11 +479,11 @@ public class CalculatorTest {
     public void testIsThreeOfAKindFalse() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.DIAMONDS),
-                new Card(HighCard.King, Suits.HERTZ),
-                new Card(6, Suits.CLUBS),
-                new Card(6, Suits.HERTZ),
-                new Card(4, Suits.CLUBS)};
+                new Card(Dignities.ACE, Suits.DIAMONDS),
+                new Card(Dignities.KING, Suits.HERTZ),
+                new Card(Dignities.create(6), Suits.CLUBS),
+                new Card(Dignities.create(6), Suits.HERTZ),
+                new Card(Dignities.create(4), Suits.CLUBS)};
 
         final boolean actualAnswer = calculator.isThreeOfAKind(inputCards);
         assertFalse(actualAnswer);
@@ -493,11 +493,11 @@ public class CalculatorTest {
     public void testIsTwoPairTrue() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.DIAMONDS),
-                new Card(9, Suits.HERTZ),
-                new Card(9, Suits.CLUBS),
-                new Card(6, Suits.HERTZ),
-                new Card(6, Suits.CLUBS)};
+                new Card(Dignities.ACE, Suits.DIAMONDS),
+                new Card(Dignities.create(9), Suits.HERTZ),
+                new Card(Dignities.create(9), Suits.CLUBS),
+                new Card(Dignities.create(6), Suits.HERTZ),
+                new Card(Dignities.create(6), Suits.CLUBS)};
 
         final boolean actualAnswer = calculator.isTwoPair(inputCards);
         assertTrue(actualAnswer);
@@ -507,11 +507,11 @@ public class CalculatorTest {
     public void testIsTwoPairFalse() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.DIAMONDS),
-                new Card(10, Suits.HERTZ),
-                new Card(9, Suits.CLUBS),
-                new Card(6, Suits.HERTZ),
-                new Card(6, Suits.CLUBS)};
+                new Card(Dignities.ACE, Suits.DIAMONDS),
+                new Card(Dignities.create(10), Suits.HERTZ),
+                new Card(Dignities.create(9), Suits.CLUBS),
+                new Card(Dignities.create(6), Suits.HERTZ),
+                new Card(Dignities.create(6), Suits.CLUBS)};
 
         final boolean actualAnswer = calculator.isTwoPair(inputCards);
         assertFalse(actualAnswer);
@@ -521,11 +521,11 @@ public class CalculatorTest {
     public void testIsPairTrue() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.DIAMONDS),
-                new Card(10, Suits.HERTZ),
-                new Card(9, Suits.CLUBS),
-                new Card(6, Suits.HERTZ),
-                new Card(6, Suits.CLUBS)};
+                new Card(Dignities.ACE, Suits.DIAMONDS),
+                new Card(Dignities.create(10), Suits.HERTZ),
+                new Card(Dignities.create(9), Suits.CLUBS),
+                new Card(Dignities.create(6), Suits.HERTZ),
+                new Card(Dignities.create(6), Suits.CLUBS)};
 
         final boolean actualAnswer = calculator.isPair(inputCards);
         assertTrue(actualAnswer);
@@ -535,28 +535,28 @@ public class CalculatorTest {
     public void testIsPairFalse() throws Exception {
         final Calculator calculator = new Calculator();
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.DIAMONDS),
-                new Card(10, Suits.HERTZ),
-                new Card(9, Suits.CLUBS),
-                new Card(6, Suits.HERTZ),
-                new Card(3, Suits.CLUBS)};
+                new Card(Dignities.ACE, Suits.DIAMONDS),
+                new Card(Dignities.create(10), Suits.HERTZ),
+                new Card(Dignities.create(9), Suits.CLUBS),
+                new Card(Dignities.create(6), Suits.HERTZ),
+                new Card(Dignities.create(3), Suits.CLUBS)};
 
         final boolean actualAnswer = calculator.isPair(inputCards);
         assertFalse(actualAnswer);
     }
 
     @Test
-    public void testGetAllSortedNumericValuesWhenArrayNotSorted() throws Exception {
+    public void testGetAllSortedDignityWhenArrayNotSorted() throws Exception {
         final Calculator calculator = new Calculator();
         final int[] expectedResult = new int[]{3, 6, 9, 10, 14};
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.DIAMONDS),
-                new Card(10, Suits.HERTZ),
-                new Card(3, Suits.CLUBS),
-                new Card(6, Suits.HERTZ),
-                new Card(9, Suits.CLUBS)};
+                new Card(Dignities.ACE, Suits.DIAMONDS),
+                new Card(Dignities.create(10), Suits.HERTZ),
+                new Card(Dignities.create(3), Suits.CLUBS),
+                new Card(Dignities.create(6), Suits.HERTZ),
+                new Card(Dignities.create(9), Suits.CLUBS)};
 
-        final int[] actualResult = calculator.getAllSortedNumericValues(inputCards);
+        final int[] actualResult = calculator.getAllSortedDignities(inputCards);
         assertArrayEquals(expectedResult, actualResult);
     }
 
@@ -565,28 +565,28 @@ public class CalculatorTest {
         final Calculator calculator = new Calculator();
         final String[] expectedResult = new String[]{"CLUBS", "DIAMONDS", "HERTZ", "HERTZ", "SPADES"};
         final Card[] inputCards = new Card[]{
-                new Card(HighCard.Ace, Suits.DIAMONDS),
-                new Card(10, Suits.HERTZ),
-                new Card(3, Suits.CLUBS),
-                new Card(6, Suits.HERTZ),
-                new Card(9, Suits.SPADES)};
+                new Card(Dignities.ACE, Suits.DIAMONDS),
+                new Card(Dignities.create(10), Suits.HERTZ),
+                new Card(Dignities.create(3), Suits.CLUBS),
+                new Card(Dignities.create(6), Suits.HERTZ),
+                new Card(Dignities.create(9), Suits.SPADES)};
 
         final String[] actualResult = calculator.getAllSortedSuits(inputCards);
         assertArrayEquals(expectedResult, actualResult);
     }
 
     @Test
-    public void testGetAllSortedNumericValuesWhenArraySorted() throws Exception {
+    public void testGetAllSortedDignityWhenArraySorted() throws Exception {
         final Calculator calculator = new Calculator();
         final int[] expectedResult = new int[]{3, 6, 9, 10, 14};
         final Card[] inputCards = new Card[]{
-                new Card(3, Suits.CLUBS),
-                new Card(6, Suits.HERTZ),
-                new Card(9, Suits.CLUBS),
-                new Card(10, Suits.HERTZ),
-                new Card(HighCard.Ace, Suits.DIAMONDS)};
+                new Card(Dignities.create(3), Suits.CLUBS),
+                new Card(Dignities.create(6), Suits.HERTZ),
+                new Card(Dignities.create(9), Suits.CLUBS),
+                new Card(Dignities.create(10), Suits.HERTZ),
+                new Card(Dignities.ACE, Suits.DIAMONDS)};
 
-        final int[] actualResult = calculator.getAllSortedNumericValues(inputCards);
+        final int[] actualResult = calculator.getAllSortedDignities(inputCards);
         assertArrayEquals(expectedResult, actualResult);
     }
 
@@ -595,11 +595,11 @@ public class CalculatorTest {
         final Calculator calculator = new Calculator();
         final String[] expectedResult = new String[]{"CLUBS", "DIAMONDS", "HERTZ", "HERTZ", "SPADES"};
         final Card[] inputCards = new Card[]{
-                new Card(3, Suits.CLUBS),
-                new Card(HighCard.Ace, Suits.DIAMONDS),
-                new Card(10, Suits.HERTZ),
-                new Card(6, Suits.HERTZ),
-                new Card(9, Suits.SPADES)};
+                new Card(Dignities.create(3), Suits.CLUBS),
+                new Card(Dignities.ACE, Suits.DIAMONDS),
+                new Card(Dignities.create(10), Suits.HERTZ),
+                new Card(Dignities.create(6), Suits.HERTZ),
+                new Card(Dignities.create(9), Suits.SPADES)};
 
         final String[] actualResult = calculator.getAllSortedSuits(inputCards);
         assertArrayEquals(expectedResult, actualResult);
@@ -607,10 +607,10 @@ public class CalculatorTest {
 
     @Test
     public void testCurrentKnownCard() throws Exception {
-        final Card[] inputPlayersCards = new Card[]{new Card(8, Suits.CLUBS), new Card(10, Suits.DIAMONDS)};
-        final Card[] inputFlopCards = new Card[]{new Card(7, Suits.CLUBS), new Card(2, Suits.DIAMONDS), new Card(9, Suits.HERTZ)};
-        final Card[] expectedAnswer = new Card[]{new Card(2, Suits.DIAMONDS), new Card(7, Suits.CLUBS), new Card(8, Suits.CLUBS),
-                new Card(9, Suits.HERTZ), new Card(10, Suits.DIAMONDS)};
+        final Card[] inputPlayersCards = new Card[]{new Card(Dignities.create(8), Suits.CLUBS), new Card(Dignities.create(10), Suits.DIAMONDS)};
+        final Card[] inputFlopCards = new Card[]{new Card(Dignities.create(7), Suits.CLUBS), new Card(Dignities.create(2), Suits.DIAMONDS), new Card(Dignities.create(9), Suits.HERTZ)};
+        final Card[] expectedAnswer = new Card[]{new Card(Dignities.create(2), Suits.DIAMONDS), new Card(Dignities.create(7), Suits.CLUBS), new Card(Dignities.create(8), Suits.CLUBS),
+                new Card(Dignities.create(9), Suits.HERTZ), new Card(Dignities.create(10), Suits.DIAMONDS)};
         final Distribution distribution = new Distribution(null);
         for (int i = 0; i < inputPlayersCards.length; i++) {
             distribution.addPlayersCard(inputPlayersCards[i], i);

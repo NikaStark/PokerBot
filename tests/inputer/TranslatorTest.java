@@ -1,6 +1,7 @@
 package inputer;
 
 import engine.models.*;
+import engine.models.Enums.Dignities;
 import engine.models.Enums.Suits;
 import engine.models.exceptions.IllegalSuitException;
 import engine.models.exceptions.NotFoundTableException;
@@ -20,7 +21,8 @@ public class TranslatorTest {
     @Before
     public void setUp() throws Exception {
         final String numberDistribution = "144453195279";
-        final Card[] playersCards = new Card[]{new Card(10, Suits.HERTZ), new Card(7, Suits.SPADES)};
+        final Card[] playersCards = new Card[]{new Card(Dignities.create(10), Suits.HERTZ),
+                new Card(Dignities.create(7), Suits.SPADES)};
         final Distribution distribution = new Distribution(numberDistribution);
         for (int i = 0; i < playersCards.length; i++) {
             distribution.addPlayersCard(playersCards[i], i);
@@ -153,7 +155,8 @@ public class TranslatorTest {
     public void testIsDistributionNewWhenTrue() throws Exception {
         final Translator translator = new Translator();
         final String number = "Game #143284520901 00400A2A";
-        final Card[] inputPlayersCards = new Card[]{new Card(7, Suits.CLUBS), new Card(10, Suits.DIAMONDS)};
+        final Card[] inputPlayersCards = new Card[]{new Card(Dignities.create(7), Suits.CLUBS),
+                new Card(Dignities.create(10), Suits.DIAMONDS)};
         final Distribution distribution = new Distribution(number);
         for (int i = 0; i < inputPlayersCards.length; i++) {
             distribution.addPlayersCard(inputPlayersCards[i], i);
@@ -195,7 +198,7 @@ public class TranslatorTest {
     @Test
     public void testSearchCard() throws Exception {
         final Translator translator = new Translator();
-        final Card expectedAnswer = new Card(4, Suits.SPADES);
+        final Card expectedAnswer = new Card(Dignities.create(4), Suits.SPADES);
         final String inputString = ":::TableViewImpl::updateMyCard() 4s (0) [6098E]";
         final Card actualAnswer = translator.searchCard(inputString);
         assertEquals(expectedAnswer, actualAnswer);
@@ -248,10 +251,10 @@ public class TranslatorTest {
         table.getPlayers()[0] = new Player(true);
         final String inputLine1 = ":::TableViewImpl::updateMyCard() 10h (0) [120908]";
         translator.initializeCard(inputLine1, table);
-        assertTrue(distribution.getCardsOfPlayer()[0].equals(new Card(10, Suits.HERTZ)));
+        assertTrue(distribution.getCardsOfPlayer()[0].equals(new Card(Dignities.create(10), Suits.HERTZ)));
         final String inputLine2 = ":::TableViewImpl::updateMyCard() 7s (1) [120908]";
         translator.initializeCard(inputLine2, table);
-        assertTrue(distribution.getCardsOfPlayer()[1].equals(new Card(7, Suits.SPADES)));
+        assertTrue(distribution.getCardsOfPlayer()[1].equals(new Card(Dignities.create(7), Suits.SPADES)));
     }
 
     @Test
